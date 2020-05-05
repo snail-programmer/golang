@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="css/layout.css">
+         
+        <link type="text/css" rel="stylesheet" href="./css/scrollPage.css">
+        <link rel="stylesheet" href="./css/animate.min.css">
+        <link href="css/bootstrap.min.css" rel="stylesheet">       
+        <script src="./script/jquery.min.js"></script>
+        <script src="./script/bootstrap.min.js"></script>
+        <script src="./script/wow.js"></script>
+        <script src="./script/ajax_request.js"></script>
+        <script src="./script/check_identify.js"></script>
+        <script>
+            new WOW().init();
+            function loginClick(){
+                window.location="login.html"
+            }
+            function dispatcher(dest){
+                window.location=dest;
+            }
+       </script>
+    </head>
+    <body>
+        <div id="topBack">
+            <img class="logo" src="./image/logo.png"/>
+            <h1>云笔记</h1>
+            <input type="button" id="btnStyle" value="注册/登录" onclick="loginClick()"/>
+             <span id="navItem" onclick="dispatcher('notelist.html')">笔记库</span>
+
+                <!-- 登录头像 -->
+   
+            <div id="loginhead"  style="visibility: visible;margin-right: 60px;">
+                <div  class="dropdown">
+                    <p class="dropdown-toggle" data-toggle="dropdown"  >
+                       <b class="caret"></b>
+                    </p>
+                   <ul class="dropdown-menu" style="min-width: 40px;">
+                       <!-- js 设置[登录，注销] -->
+                       <li ><a href="#">注销</a></li>
+                   </ul>
+                 </div>
+                <!-- nickName -->
+                <p id="nickname">我叫MT</p>
+            </div>
+
+        </div>
+        <div id="mediumBack">
+            <div id="photo1">
+                <img src="image/book_back.jpg"/>
+            </div>
+            <div id="photo2" style="margin-top: -500px;"> 
+                <img  src="image/book_back2.jpg" />
+              </div>  
+        </div>
+
+        <div id="textframe">
+            <img style="width: 50%; margin-top: -200px;" src="image/textframe.png"/>
+            <h1 style="margin-top: -320px;color: white;">欢迎使用</h1>
+            <p class="animated" style=" animation: jello 1s; font-weight: 500; font-size: 30; width: 100%;">涵盖各类学科知识笔记，让你学习无忧！</p>
+        </div>
+        <section class="detail">
+            <div class="wrap-a">
+                <div class="detail-wrap">
+                    <div class="detail-img-doc">
+                        <img src="./image/main-svg/ic-cone.svg" alt="cone" data-wow-delay="0.3s" class="ic-01-cone wow fadeInLeft  animated" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                        <img src="./image/main-svg/ic-01-win@2x.png" alt="computer" class="ic-01-computer wow fadeIn  animated" style="visibility: visible; animation-name: fadeIn;">
+                        <div class="ic-01-hide">
+                            <img src="./image/main-svg/ic-01-red.svg" data-wow-delay="0.1s"   class="ic-01-red wow bounceInDown  animated" style="visibility: visible; animation-name: bounceInDown;">
+                            <img src="./image/main-svg/ic-01-yellow.svg" data-wow-delay="0.3s"   class="ic-01-yellow wow bounceInDown  animated" style="visibility: visible; animation-delay: 0.1s; animation-name: bounceInDown;">
+                            <img src="./image/main-svg/ic-01-green.svg" data-wow-delay="0.1s"    class="ic-01-green wow bounceInDown  animated" style="visibility: visible; animation-delay: 0.2s; animation-name: bounceInDown;">
+                            <img src="./image/main-svg/ic-01-blue-1.svg"  data-wow-delay="0.2s"  class="ic-01-blue wow bounceInDown  animated" style="visibility: visible; animation-delay: 0.3s; animation-name: bounceInDown;">
+                        </div>
+                    </div>
+                    <div class="detail-des detail-doc wow fadeInRight" style="visibility: visible; animation-name: fadeInRight;">
+                        <h2>
+                            <span>笔记管理</span>，高效记录
+                        </h2>
+                        <p>通过文字、图片等形式，随时随地分享你的所得。并为此获利。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contain3" data-wow-delay="0.3s" class="wow pulse animated" style="text-align: center;">
+                <p style="margin-top: 220px; float: none; font-size: 44; font-weight: 500;">学科门类众多</p>
+                <div  style="margin-top: 70px;margin-left: 270px; background-color: olive; float: left; ">语文</div>
+                <div style="margin-top: 340px;margin-left: -130px;background-color: black; float: left;">数学</div>
+                <div style="margin-top: 70px;margin-right: 270px; background-color: rgb(94, 14, 131);float: right; ">外语</div>
+                <div style="margin-top: 340px;margin-right: -130px; background-color: cadetblue;float: right; ">其他</div>
+                <img src="image/notebook.png" style="width: 300px;height: 300px; margin-top: 100px;"/>
+            </div>
+        </section>
+  
+    </body>
+    <div class="footer" >
+        <img src="./image/xb.png"/>
+        <label >学霸 - 云共享笔记</label>
+    </div>
+</html>

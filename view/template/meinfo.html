@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/layout.css">
+        <link rel="stylesheet" type="text/css" href="../css/mine.css">
+        <script src="../script/jquery.min.js"></script>
+        <script src="../script/category.js"></script>
+        <script src="../script/ajax_request.js"></script>
+        <script src="../script/dynamic_notelist.js"></script>
+        <script src="../script/check_identify.js"></script>
+         <script src="../script/tools.js"></script>
+         <script src="../script/show_mask.js"></script>
+        <script>
+            function callback(data) {
+                 var info= document.getElementsByClassName("myinfo").item(0);
+                var lb = info.getElementsByTagName("label");
+                for(var i=0;i < lb.length; i++){
+                     var id_key = lb.item(i).id;
+                     var reldata = autoGetTypeData(data[id_key]);
+                     if(id_key == "Money"){
+                        reldata += "元";
+                     }
+                     $("#"+id_key).text(reldata);
+                }
+            }
+            function getMyUser(){
+               
+               //得到当前用户回调
+               request_route('/getMyUser',callback);
+             }
+        </script>
+    </head>
+    <body  onload="getMyUser()"> 
+        
+        <div class="myinfo">
+            <div class="topline"></div>
+            <div class="tophead">
+                <div class="dc">
+                    <p>有效金币</p>
+                    <label id="Coin">naV</label>
+                </div>
+                <div class="dc">
+                    <p>打赏收益</p>
+                    <label id="Gratuity">naV</label>
+                </div>
+                <div class="dc">
+                    <p>流量收益</p>
+                    <label id="Flow">naV</label>
+                </div>
+                <div class="dc">
+                    <p>总收益(RMB)</p>
+                    <label id="Money">naV</label>
+                </div>
+            </div>
+            <button id="btnStyle" style="margin-right: 5%; color: #5a5959;">提现</button>
+            <p class="money-tip">规则: 50金币=1元，有效收益=基础金币(100)+打赏收益， 总收益=有效收益+流量收益</p>
+        </div>
+         
+    </body>
+</html>

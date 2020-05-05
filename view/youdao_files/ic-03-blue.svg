@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160px" height="160px" viewBox="0 0 160 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>DD4CCBF6-C584-45E6-8D18-E7ED05D0167A</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <linearGradient x1="2.34375%" y1="2.34375%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#5CD5FF" offset="0%"></stop>
+            <stop stop-color="#1783FF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M124,60 C124,90.928 98.928,116 68,116 C37.072,116 12,90.928 12,60 C12,29.072 37.072,4 68,4 C98.928,4 124,29.072 124,60" id="path-2"></path>
+        <filter x="-31.7%" y="-24.6%" width="184.8%" height="184.8%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="12" dy="20" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.115480554   0 0 0 0 0.480452939   0 0 0 0 0.819355867  0 0 0 0.30785779 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="官网" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="云笔记官网_mac" transform="translate(-700.000000, -2626.000000)">
+            <g id="Group-25" transform="translate(472.000000, 2390.000000)">
+                <g id="Group-18" transform="translate(228.000000, 236.000000)">
+                    <g id="Fill-1">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                        <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    </g>
+                    <path d="M46,53 L46,39.1 C46,38.492 46.492,38 47.1,38 L61,38" id="Stroke-3" stroke="#FFFFFF" stroke-width="4"></path>
+                    <path d="M75,38 L88.9,38 C89.508,38 90,38.492 90,39.1 L90,53" id="Stroke-5" stroke="#FFFFFF" stroke-width="4"></path>
+                    <path d="M90,67 L90,80.9 C90,81.508 89.508,82 88.9,82 L75,82" id="Stroke-7" stroke="#FFFFFF" stroke-width="4"></path>
+                    <path d="M61,82 L47.1,82 C46.492,82 46,81.508 46,80.9 L46,67" id="Stroke-9" stroke="#FFFFFF" stroke-width="4"></path>
+                    <polygon id="Fill-11" fill="#FFFFFF" points="56 56 80 56 80 50 56 50"></polygon>
+                    <polygon id="Fill-13" fill="#FFFFFF" points="56 70 80 70 80 64 56 64"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

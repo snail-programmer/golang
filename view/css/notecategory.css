@@ -1,0 +1,118 @@
+.notecategoryBack{
+    position: absolute;
+    width: 100%;
+    height: 240px;
+    top:100px;
+    background-color: rgb(86, 85, 88);
+    opacity: 0.4;
+  
+}
+#notecategory #writeNote{
+    float: right;
+    width: 150px;
+    height: 60px;
+    margin-top: -100px;
+    margin-right: -270px;
+    outline: none;
+    color: wheat;
+    border: none;
+    font-size: 20px;
+    font-family: "Consolas";
+    border-radius: 10px;
+    background-color: rgb(120, 52, 184);
+}
+#notecategory{
+    position: absolute;
+    top:100px;
+    width: 840px;
+    height: 240px;
+    background-color: rgb(58, 194, 199);
+    margin-left:10%;
+    opacity: 1; 
+}
+#notecategory #brand{
+    width: 200px;
+    height: 100%;
+    background-color: rgb(161, 194, 192);
+    float: left;
+   
+}
+#notecategory #brand #singItem{
+    width: 200px;
+    height: 77px;
+    background-color: rgb(64, 134, 175);
+    text-align: center;
+    line-height: 77px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: antiquewhite;
+    font-size: 20px;
+    font-family: '微软雅黑';
+    cursor: pointer;
+}
+#notecategory #brand #singItem:hover{
+    background-color: rgb(60, 142, 189);
+}
+#notecategory #brand #singItem:after{
+    content: " >";
+}
+#notecategory  #expandMenu{
+    position: absolute;
+     width: 150px;
+     height: auto;
+     left:200px;
+     top:0px;
+     background-color: rgb(60, 142, 189);
+     text-align: center;
+     z-index: 1;
+     box-shadow: -3px 3px 5px rgb(51, 50, 50);
+}
+#notecategory #expandMenu #menuItem{
+    width: 100%;
+    height: 60px;
+    color: white;
+     margin-bottom: 0px;
+    line-height: 60px;
+    cursor: pointer;
+    padding-top: -60px;
+}
+#notecategory #expandMenu #menuItem:after{
+    content: " >";
+}
+#notecategory #expandMenu #menuItem:hover{
+    background-color: rgb(150, 100, 190);
+}
+#notecategory #expandMenu #menuItem .separate{
+   position: absolute;
+   width: 80%;
+   left: 10%;
+   height: 1px;
+   background-color: rgb(175, 170, 170);
+   opacity: 0.5;
+   margin-top: 0px;
+ }
+
+ #expandMenu #expandItem{
+    position: absolute;
+    width: 100px;
+    left: 150px;
+    height: auto;
+    background-color: rgb(105, 107, 109);
+    z-index: 2;
+    top:0;
+    box-shadow: -3px 3px 5px rgb(51, 50, 50);
+ }
+#expandItem #detailItem{
+     position: relative;
+     width: 100%;
+     height: 50px;
+     color: white;
+    background-color: rgb(65, 149, 197);
+    margin-bottom:1;
+   
+    cursor: pointer;
+    line-height: 50px;
+ }
+ #expandItem > #detailItem:hover{
+    background-color: rgb(150, 100, 190);
+ }

@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/layout.css">
+        <link rel="stylesheet" type="text/css" href="../css/mine.css">
+        <link rel="stylesheet" type="text/css" href="../css/mynote.css">
+        <link rel="stylesheet" href="../css/personal.note.css" type="text/css">
+  
+        <script src="../script/jquery.min.js"></script>
+        <script src="../script/category.js"></script>
+        <script src="../script/ajax_request.js"></script>
+        <script src="../script/dynamic_notelist.js"></script>
+        <script src="../script/check_identify.js"></script>
+        <script src="../script/tools.js"></script>
+        <script src="../script/show_mask.js"></script>
+        <script src="../script/personview.js"></script>
+        <script src="../script/warning.js"></script>
+        <script src="../script/mynote.js"></script>
+        <script>
+            function filter(_this){
+                var notecate = _this[_this.selectedIndex].value;
+                 init_collect(notecate);
+                var doc = document.getElementById("CategoryName");
+                doc.innerText = "收藏 | "+notecate;
+            }
+            function init_collect(cate){
+                req_collectNote(cate,function(arr){
+                /* 
+                 arr[ 0:user  1:note 2:category]
+                */
+                var catelist = arr[2];
+                var notenum = document.getElementById("Cnt");
+                notenum.innerText=arr[0].Note_sum;
+                      //添加select options
+                var sel_drop = document.getElementsByClassName("mycate").item(0);
+                if(sel_drop.options.length > 0){
+                    return;
+                }
+                sel_drop.options.add(new Option("全部","全部"));
+                    for(var i=0;i<catelist.length;i++){
+                        if(!catelist[i])
+                            continue;
+                        //防止重复添加categoryName
+                        var hasExist = false;
+                        for(var j=0;j<sel_drop.options.length;j++){
+                            if(sel_drop.options[j].value == catelist[i]["CategoryName"]){
+                                hasExist = true;
+                                break;
+                            }
+                        }
+                        if(!hasExist){
+                            var opt = new Option(catelist[i]["CategoryName"],catelist[i]["CategoryName"]);
+                            sel_drop.options.add(opt);
+                        }    
+                    }
+                });
+            }
+            function colcel_note(dom,ope){
+                if(dom.id == "ArticleId"){
+                    var noteid = dom.getElementsByTagName("p").item(0).innerText;
+                    if(ope=="colcel_note"){
+                     //弹出确认框
+                        show_warn("警告","取消收藏?", function(){
+                      //已确认，发送请求
+                            send_data(ope, function(e){
+                                 if(e.state == "success"){
+                                    dom.parentNode.remove();
+                                    var sel = document.getElementsByClassName("mycate").item(0);
+                                    filter(sel);
+                                  }else{
+                                     show_warn("提示",e.msg);
+                                 }
+                            }, "noteId=" + noteid+"&ope=delt_collect");
+                        });
+                    }
+                }else{
+                    colcel_note(dom.parentElement,ope);
+                }
+            }
+             
+        </script>
+    </head>
+    <body onload="init_collect('全部')"  style="padding-top: 40px;margin-left: -1px;">
+        
+           <iframe id="tp_minenotelist" src="tp_mine_collect.html" style="width: 0;height: 0;position: absolute;"></iframe>
+           <div class="personal-main"  >
+
+               <div class="cagItem">
+                   <div id="leftline">
+                   </div>
+                   
+                   <p class="tag1" id="CategoryName">收藏 | 全部</p>
+                   <p class="info1">
+                        ----共
+                        <p class="info1" id="Cnt">0</p>
+                        <p class="info1">篇笔记</p>
+                    </p>    
+                   <select class="mycate" onchange="filter(this)">
+                 </select>
+
+          
+               </div>
+    
+               <div class="note-list" style="display: block;visibility: hidden;">
+                   <div class="personal-notes">   
+                   <table id="personal-tb" cellspacing="0" border="0">    
+                   </table>
+                   </div>
+               </div>
+           </div>
+
+     
+
+    </body>
+</html>

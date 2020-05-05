@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="./css/animate.min.css"> 
+        <!-- <link type="text/css" rel="stylesheet" href="./css/scrollPage.css"> -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/layout.css">
+        <link rel="stylesheet" type="text/css" href="css/mine.css">
+        <link rel="stylesheet" type="text/css" href="./css/warning.css">
+        <link rel="stylesheet" type="text/css" href="./css/pushnext.css">
+ 
+        <script src="./script/jquery.min.js"></script>
+        <script src="./script/bootstrap.min.js"></script>
+           <!-- 动态笔记;网络请求;身份验证 -->
+           <script src="script/show_mask.js"></script>
+           <script src="script/jquery.min.js"></script>
+           <script src="script/category.js"></script>
+           <script src="script/ajax_request.js"></script>
+           <script src="script/check_identify.js"></script>
+           <script src="script/tools.js"></script>
+
+        <script>
+          
+            function initData() {
+                check_identify_jump("身份验证...","login.html");
+                
+                var page = getQueryVariable("page");
+                //没有参数显示我的信息
+                if(!page)
+                    page = "meinfo";  
+                $("#"+page).click();
+            }
+           
+            $(document).ready(function(){
+                //左侧导航菜单选中
+                $(".leftNav").children("p").click(function(){
+                    var b= $(".leftNav").children("p");
+                    b.attr("style","background-color:none;");
+                    $(this).attr("style","background-color:rgb(139, 139, 167);");
+                    if(this.id)
+                        history.pushState("","学霸笔记","mine.html?page="+this.id);
+                    var url="template/"+this.id+".html";
+                    if (this.id =="setting"){
+                        url = "/getUserConfig";
+                    }
+                    if(this.id == "notelist"){
+                        window.open("notelist.html","_blanck").location;
+                    }else{
+                        $(".rightcontent").attr("src",url);
+                    }
+                 });
+            });
+            function setting(){
+                $(".rightcontent").attr("src","/getUserConfig");
+            }
+        </script>
+    </head>
+    <body onload="initData()">
+        <div id="topBack" style="background-color: rgb(134, 122, 241);height: 15%;">
+            <img class="logo" src="./image/logo.png"/>
+            <h1 onclick="request_route('/categorylist',category_callback)">云笔记</h1>
+            <input type="button" id="btnStyle" value="注册/登录" onclick="loginClick()"/>
+         <!-- 登录头像 -->
+            <div id="loginhead" >
+                <div  class="dropdown">
+                    <p class="dropdown-toggle" data-toggle="dropdown"  >
+                       <b class="caret"></b>
+                    </p>
+                   <ul class="dropdown-menu" style="min-width: 40px;">
+                       <!-- js 设置[登录，注销] -->
+                       <li ><a href="/logout">注销</a></li>
+                       <!-- <li onclick="setting()"><a>个人设置 </a></li> -->
+                   </ul>
+                 </div>
+                <!-- nickName -->
+                <p id="nickname" style="color: white;">我叫MT</p>
+            </div>
+        </div>
+        <div class="content"> 
+        <div class="leftNav">
+            <p id="notelist">笔记库</p>
+            <p id="meinfo">我的信息</p>
+            <p id="newnote">新建笔记</p>
+            <p id="mynote">我的笔记</p>
+            <p id="collect">收藏夹</p>
+            <p id="setting">个人设置</p>
+        </div>
+        <iframe class="rightcontent">   
+        </iframe>
+         </div>
+<!-- 发布笔记进入下一步 -->
+<script>
+    // 隐藏推送笔记弹窗
+         function hideme() {
+            var hide= window.top.document.getElementById("pushnext");
+            hide.remove();
+        }
+</script>
+<!-- 推送笔记时弹窗 -->
+    <iframe id="showcate" src="pushnext.html" style="display: none;" ></iframe>
+    </body>
+</html>

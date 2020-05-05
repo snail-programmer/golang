@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+        <link rel="stylesheet" type="text/css" href="css/nextStep.css"/>
+        <script src="script/jquery.min.js"></script>
+        <script src="script/show_mask.js"></script>
+        <script>
+            // var href = window.location.href;
+            // var sp = href.substring(href.length-5);
+            // if(sp.indexOf("html",0)>=0){
+            //     document.location="mine.html";
+            // }
+        </script>
+        <script>
+            function init_step(){
+                var file = document.getElementsByName("uploadimg").item(0);
+                var up = document.getElementsByClassName("up").item(0);
+                file.onchange=function(){
+                    console.log("chage:",file.files);
+                    var reader = new FileReader();
+                    var getfile = file.files[0];
+                    reader.readAsDataURL(getfile);
+                    reader.onload=function(e){
+                         $(".up").attr("src",this.result);
+                    }
+                }
+                show_maskTime("加载数据...",300,null);
+            }
+         
+            //提交前上传图片
+            function dealWhenSubmit(){
+                var file = document.getElementsByName("uploadimg").item(0);
+                if(file.files[0]){
+                      document.getElementById("uploadfile").submit();
+                }
+               show_maskTime("正在保存个人信息...",1000,function(){
+                    document.getElementById("personInfo").submit();
+                });
+            }
+        </script>
+    </head>
+    <body onload="init_step()">
+        <div class="back">
+            <div class="topline"></div>
+            <p class="adjustInfo" onclick="hide_mask()">完善个人信息</p>
+           
+            <form target="nojump" id="uploadfile" enctype="multipart/form-data" action="upload" method="post">
+             <img   class="up" src="{{.HeadImg}}" /> 
+            <input   type="file"  name="uploadimg"  /> 
+             
+            </form>
+
+            <form id="personInfo" method="POST" action="perfectPersonInfo">
+                <p>
+                    <label>笔名昵称:</label>
+                    <input name="NickName" value="{{.NickName}}"/>
+                </p>
+                <p>
+                    <label>最高学历:</label>
+                    <select name="Education">
+                        <option>{{.Education}}</option>
+                        <option value="初中">初中</option>
+                        <option value="高中">高中</option>
+                        <option value="大学">大学</option>
+                    </select>
+                </p>
+                <p>
+                    <label>学校:</label>
+                    <input name="School" value="{{.School}}"/>
+                </p>
+                <p>
+                    <label>个人简介:</label>
+                    <textarea name="Description" maxlength="200">{{.Description}}</textarea>
+                </p>
+            </form>
+            <button onclick="dealWhenSubmit()" style="margin-left: 334px;">下一步</button>
+
+        </div>
+        <iframe name="nojump" style="display: none;" ></iframe>
+    </body>
+</html>

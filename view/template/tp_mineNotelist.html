@@ -1,0 +1,23 @@
+<table>    
+    <tr id="personal-notelist" class="font-size:10px;">
+        <td  class="p-note-icon">
+        </td>
+        <td id="CategoryName" class="catename"  style="width: 36%; margin-right: 20px; ">
+        </td>
+        <td  id="View_num" class="myfont" style=" font-size:14;">浏览</td>
+        <td  id="Collection" class="myfont" style=" font-size:14;">收藏</td>
+        <td id="ArticleId" style="width: 200px;height: 40px;">
+            <p id="noteId" style="display: none;"></p>
+            <div class="view_del" style="height: 40px;" >
+                <div class="circle_del">
+                    <p id="delt_note" class="rightnext" onclick="deal(this,this.id)">  × </p>
+                </div>
+                <div class="circle_view">
+                    <p id="view_note" class="rightnext" onclick="deal(this,this.id)">></p>
+                </div>
+            </div>
+            <button class="viewbtn" style="display: none; margin-left: 40px;" onclick="deal(this,'view_note')">查看</button>  
+         </td>
+    </tr>
+</table>
+ 

@@ -1,0 +1,88 @@
+ .content{
+    display: flex; 
+    justify-content: left;
+    height:85%;width: 100%;
+    margin-top: 0;
+    background-color: rgb(233, 229, 229);
+}
+.leftNav{
+    width: 10%; 
+    height:100%;
+    background-color: rgb(210, 212, 214);
+    text-align: center;    
+}
+ 
+.leftNav > p{
+    line-height: 40px;
+    margin-left: 0;
+    width: 100%;
+    color: rgb(75, 73, 73);
+    cursor: pointer;
+}
+.leftNav > p:hover{
+    background-color: rgb(151, 151, 172);
+}
+
+.rightcontent{
+    width: 90%;
+    height: 100%; 
+    border: 1px solid rgb(194, 192, 192);
+}
+ .myinfo{
+    margin: 0 auto;
+    width: 70%;
+    margin-top: 40px;
+    height: 70%;
+    box-shadow: darkolivegreen 2px 2px 5px;
+    background-color: white;
+}
+.myinfo > .topline{
+    width: 100%;
+    height: 10px;
+    background-color: rgb(39, 159, 214);
+ 
+}
+.myinfo  .tophead{
+    width: 90%;
+    background-color: cyan;
+    height: 100px;
+    margin-top: 60px;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+.myinfo .money-tip{
+    font-size: 12px;
+    color: #817d7f;
+    margin-left: 5%;
+    margin-top: 45px;
+ }
+
+.tophead .dc{
+    width: 170px;
+    height: 100%;
+    font-size: 15;
+    background-color: pink;
+    display:flex;
+    flex-direction: column;
+    cursor: pointer;
+ }
+
+ .dc:hover{
+      font-size: 20;
+      color: rgb(155, 86, 219);
+
+ }
+
+ .dc p{
+    height: 50%;
+    line-height: 50%;
+    width: 100%;
+    text-align: center;
+    margin-left: 0px;
+    font-size: 20px;
+    font-weight: 600;
+ }
+ .dc label{
+    margin: 0 auto;
+}

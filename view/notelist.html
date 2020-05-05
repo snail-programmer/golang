@@ -1,0 +1,241 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- "https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" -->
+<!-- https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js -->
+<!-- https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js -->
+        <link rel="stylesheet" href="./css/animate.min.css">
+        <link type="text/css" rel="stylesheet" href="./css/scrollPage.css">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/layout.css">
+        <link rel="stylesheet" type="text/css" href="css/notecategory.css"/>
+        <script src="./script/jquery.min.js"></script>
+        <script src="./script/bootstrap.min.js"></script>
+        <script src="./script/wow.js"></script>
+        <!-- 动态笔记;网络请求;身份验证 -->
+        <script src="script/category.js"></script>
+        <script src="script/ajax_request.js"></script>
+        <script src="script/dynamic_notelist.js"></script>
+        <script src="script/check_identify.js"></script>
+        <script src="script/warning.js"></script>
+       <script>
+        function showLoading(){
+            var load=document.getElementById("loading");
+            load.style.display="block";
+        }
+        function hideLoading() {
+            var load=document.getElementById("loading");
+            load.style.display="none";
+        }
+        //ajax请求回调
+        function ajax_callback(arr){
+            //dynamic_notelist 创建指定数量笔记列表
+            //创建列表项并为每个列表项赋值
+            if (new_curNum == 0 && (typeof arr).toString() == "object"){
+                if(arr.code == "400" || arr.code == "200"){
+                    if(arr.code == "200"){
+                        show_warn("警告",arr.msg);
+                        arr.msg="查询失败!";
+                    }
+                    if(new_curNum>0){
+                        arr.msg="再没有东西了 ︿(￣︶￣) "
+                    }
+                    var tip = document.getElementById("loading");
+                    var info = document.createElement("label");
+                    info.innerText = arr.msg;
+                    info.style.marginTop="10px";
+                    tip.innerHTML="";
+                    tip.appendChild(info);
+                    return;
+                } 
+            }
+            setData(arr);
+            hideLoading();  
+            new_curNum = document.getElementsByClassName("item").length;
+        }
+   
+
+        /*
+        为请求路由添加参数
+        curNum:要加载的下一个起始项，它等于已经获得的列表项数量，
+        */
+        var old_curNum=-1;
+        var new_curNum =0;
+        function request_route_notelist(route,callback,sortType){
+            //如果两次的起始项相同，它应该拒绝再次发起请求
+            if(old_curNum == new_curNum)
+                return;
+            //加载中
+            showLoading();
+            route+="?curNum="+new_curNum+"&sortType="+sortType;
+            var keyword = document.getElementById("search").value;
+            if(keyword.length > 0){
+                route+="&keyword="+keyword;
+            }
+            console.log(route);
+            setTimeout(() => {
+                request_route(route,callback);
+            }, 500);
+            old_curNum = new_curNum;
+        }
+        //滚动条事件
+        function scroll_listen(e){
+            var a=document.body.scrollTop;
+            var b=document.body.clientHeight;
+            var c=document.body.scrollHeight;
+            var sorType = $("#sort_type option:selected").val();
+            if(a + b >= c){
+                request_route_notelist('/queryPartNote',ajax_callback,sorType);
+            }
+        }
+        document.addEventListener("scroll",scroll_listen,true);
+  
+        function resouce_search(){
+            old_curNum=-1;
+            new_curNum =0;
+            var notelist = document.getElementById("note_list_item");
+            notelist.innerHTML = "";
+            request_route_notelist('/queryPartNote',ajax_callback);
+        }
+        function init_notelist(){
+            old_curNum=-1;
+            new_curNum =0;
+            var notes = document.getElementById("note_list_item");
+            notes.innerHTML="";
+            var se = document.getElementById("search");
+            
+            se.value="";
+            request_route_notelist('/queryPartNote',ajax_callback,'sortTime');
+        }
+        function searchkeydown() { 
+        if(event.keyCode == 13) { 
+            resouce_search();
+        } 
+    } 
+ 
+    </script>
+    </head>
+    <!-- 初始请求列表 -->
+    <body onload="init_notelist()">
+        <div id="topBack">
+            <img class="logo" src="./image/logo.png"/>
+            <h1 onclick="request_route('/categorylist',category_callback)">云笔记</h1>
+            <input type="button" id="btnStyle" value="注册/登录" onclick="loginClick()"/>
+     
+        <div id="note-search">
+            <input type="text" id="search"  onkeydown="searchkeydown()"  placeholder="输入课程，年级，学霸昵称等关键字"/>
+            <button id="filter" onclick="resouce_search()">查找</button>
+        </div>
+ 
+  
+         <!-- 登录头像 -->
+   
+            <div id="loginhead" >
+                <div  class="dropdown">
+                    <p  class="dropdown-toggle" data-toggle="dropdown"  >
+                       <b class="caret"></b>
+                    </p>
+                   <ul class="dropdown-menu" style="min-width: 40px;">
+                       <!-- js 设置[登录，注销] -->
+                       <li ><a href="/logout">注销</a></li>
+                       <li ><a href="mine.html">个人中心</a></li>
+                   </ul>
+                 </div>
+                <!-- nickName -->
+                <p id="nickname">我叫MT</p>
+            </div>
+
+        </div>
+        <!-- 内容垂直分类 -->
+        <script>
+            function menuClick(){
+                alert(this.innerText);
+            }
+            $(document).ready(function() {
+                $("#brand").children("ul").mouseenter(function(){
+                   createMenu(this,menuClick);
+                });
+                $("#brand").children("ul").mouseleave(function(){
+                    menu_mouseleave();
+                });
+                $("#writeNote").click(function(){
+                    document.location="mine.html?page=newnote";
+                });
+                //选择笔记显示类型
+                $("#sort_type").change(function(){
+                    var list_item = document.getElementById("note_list_item");
+                    list_item.innerHTML="";
+                    old_curNum = -1;
+                    new_curNum = 0;
+                    var sortType = $("#sort_type option:selected").val();
+                    if(sortType == "recommend"){
+                        request_route('/getMyUser',function(e){
+                            if (e == "未登录呢"){
+                                show_warn("警告","使用该功能请先登录",function(){
+                                    document.location="login.html";
+                                });
+                            return;
+                            }else{
+                                request_route_notelist('/queryPartNote',ajax_callback,sortType);
+                            }
+                        });
+                    }else{
+                        request_route_notelist('/queryPartNote',ajax_callback,sortType);
+                    }
+                });
+            });
+        
+
+        </script>
+        <div class="notecategoryBack"> </div>
+        <div id="notecategory">
+            <div id="brand">
+                <ul id="singItem">学科分类</ul>
+                <ul id="singItem">状元笔记</ul>
+                <ul id="singItem">学术专题</ul>
+            </div>
+            <div id="expandMenu"> 
+                <!-- <ul id="menuItem">
+                    hello
+                    <label class="separate"></label>
+                </ul> -->
+                <!-- <div id="expandItem">
+                </div> -->
+            </div>
+  
+            <img src="image/studyback.jpg" style="background-size: cover;
+             width:640px; height:240px;margin-left:200px; margin-top: -240px;"/>
+
+            <button id="writeNote">我要写笔记</button>
+
+        </div>
+
+    
+    <!-- 笔记列表容器 -->
+
+    <div id="note_list">
+
+        <div style=" display: flex;justify-content:start;padding-left: 20px;">
+            <label class="note-library" onclick="init_notelist()">笔记库</label>
+            <select id="sort_type">
+            <option value="sortTime">按发布时间排列</option>
+            <option value="hotNote">按笔记热度排列</option>
+            <option value="recommend">个性化推荐</option>
+            </select>
+        </div>
+        <!-- 动态创建笔记列表 -->
+        <div id="note_list_item">
+
+        </div>
+    </div> 
+       <div id="loading">
+        <img src="image/loading.gif"/>正在加载中...
+    </div>
+
+    </body>
+    <iframe id="noteItem" src="noteitem.html" style="visibility: hidden;width: 0;height: 0;"></iframe>
+    <div class="footer" >
+        <img src="./image/xb.png"/>
+        <label >学霸 - 云共享笔记</label>
+    </div>
+</html>

@@ -1,0 +1,96 @@
+.xhe_default{
+    background-color: black;
+}
+.xhe_default img{
+    max-width: 20cm;
+}
+.newnote_back{
+    position: relative; 
+    background-color: rgb(255, 255, 255); 
+    width: 100%;
+    height: 100%; 
+    display: flex;
+    justify-self: start;
+    margin-left: -7px;
+    margin-top: -7px;
+}
+.draftList{
+    position: relative;
+    height: 100%;
+
+    background-color:white;
+}
+.draftList  .draftitle{
+    float: none;
+    line-height: 46px;
+
+    text-align: center;
+    color: rgb(143, 139, 139);
+    margin: 0 auto;
+    border-bottom: 1px solid #dfdddd;
+    border-right: 1px solid #dfdddd;
+    width: 0; 
+   visibility: hidden; 
+}
+.draftitle > img{
+    position: absolute; background-size: cover;width: 20px;height: 20px;left: 120px;top: 13px;
+}
+.draftList   .draftItem{
+    text-align: center;
+    height: 100px;
+    background-color: white;
+    margin-top: 2px;
+    cursor: pointer;
+     border-bottom: 1px solid #dfdddd;
+
+}
+
+.draftItem .w_time{
+    position: relative;
+    font-size: 10px;
+    float: left;
+    margin-left: 5px;
+    margin-top: 4px;
+    color: rgb(168, 167, 167);
+}
+.draftItem .preview{
+    float: left;
+    width: 180px;
+    height: 40px;
+    margin-left: 10px;
+    margin-top: 10;
+    text-align:left;
+    font-size: 12px;
+    color: rgb(128, 124, 124);
+    cursor: pointer;
+}
+.draftItem .del_icon{
+    float: right;
+     width: 25px;
+    height: 25px;
+    border-radius: 14px;
+    border: none;
+    margin-right: 4px;
+    margin-top:4px;
+    background-size: cover;
+    cursor: pointer;
+    visibility: hidden;
+ }
+ .newnote_back .toolbar{
+    width: 100%;
+    height: 46px; 
+    border-right: 1px solid #dfdddd;
+    background-color: white;
+    margin-left: -1.5px;
+ }
+ .btnExt{
+    float: right;
+    width: 100px;
+    height: 30px;
+    margin-top: 7px;
+    background: none;
+    border: 1px solid rgb(133, 133, 218); 
+    margin-right: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+ }

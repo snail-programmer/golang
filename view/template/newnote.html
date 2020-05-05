@@ -1,0 +1,266 @@
+<html>
+    <head>
+        <title>学霸笔记</title>
+        <link rel="stylesheet" type="text/css" href="../css/layout.css">
+        <link rel="stylesheet" type="text/css" href="../css/mine.css">
+        <link rel="stylesheet" type="text/css" href="../css/template/newnote.css">
+        <script src="../script/jquery.min.js"></script>
+        <script src="../script/category.js"></script>
+        <script src="../script/ajax_request.js"></script>
+        <script src="../script/dynamic_notelist.js"></script>
+        <script src="../script/check_identify.js"></script>
+         <script src="../script/tools.js"></script>
+         <script src="../script/show_mask.js"></script>
+         <script src="../script/warning.js"></script>
+         <script src="../script/pushnext.js"></script>
+         <script src="../plugins/xheditor/jquery/jquery-1.11.2.min.js"></script>
+         <script src="../plugins/xheditor/xheditor-1.2.2.min.js"></script>
+         <script src="../plugins/xheditor/xheditor_lang/zh-cn.js"></script>
+      
+         <script>
+          
+            $(function () {
+                // 初始化在线编辑器
+                $('#EditNote').xheditor({
+                    tools: 'full',
+                    width: '800',
+                    height: '450',
+                    left:'200',
+                    upBtnText: '浏览',
+                    upImgUrl:'xhedit_uploadImg',
+                    upImgExt:'jpg,jpeg,gif,png',   
+                 
+                });
+            });
+            //发布笔记
+            function pushNote(){
+                var note = $("#EditNote").val();
+                if(note.length < 10){
+                    show_warn("警告","笔记字数不能少于50字！");
+                    return;
+                }
+                show_pushnext();
+            }
+            function pushDraft_callback(data){
+                console.log("push_draft:",data);
+            }
+            function pushDraft(){
+                var note = $("#EditNote").val();
+                var tokenTime = document.getElementById("EditNote").className;
+                if( note.length > 0){
+                    if(tokenTime == ""){ 
+                        tokenTime = getCurTime();
+                        createDraftNote(note, tokenTime);    
+                    }
+                    //提交服务器
+                    updateDraftNote(tokenTime,note);
+                    //更新预览
+                    var timeLbs= document.getElementsByClassName("w_time");
+                    var preView = document.getElementsByClassName("preview");
+
+                    //预览-草稿是否存在
+                    var find_preview= false;
+                    for(var i=0;i<timeLbs.length;i++){
+                        if(timeLbs.item(i).innerText == tokenTime){
+                            find_preview = true;
+                            break;
+                        }
+                    }
+                    //提交草稿后如果没有在列表发现该预览，新建一个
+                    if(!find_preview){
+                        addDraft(tokenTime);
+                    }
+
+                    for(var i=0;i<timeLbs.length;i++){
+                        if(timeLbs.item(i).innerText == tokenTime){
+                            updatePreview(preView.item(i),note);
+                            break;
+                        }
+                    }
+                }
+            }
+            function clearNote() {
+                    $("#EditNote").val("")
+            }
+            //显示-隐藏删除图标
+            function draftItemMove(){
+                var di =this.getElementsByClassName("del_icon").item(0);
+                di.style.visibility = "visible";
+            }
+            function draftItemOut() {
+                var di =this.getElementsByClassName("del_icon").item(0);
+                di.style.visibility = "hidden";
+            }
+            //点击草稿后请求网络，加载已保存的草稿
+            function draftItemClick(){ 
+                var time = this.getElementsByClassName("w_time").item(0).innerText;
+                document.getElementById("EditNote").className = time;
+                send_data("/get_draft",getDraftNote,"createTime="+time);
+            }
+            //隐藏草稿列表
+            function hidelist() {
+                var list =document.getElementsByClassName("draftList").item(0);
+                list.style.width="0";
+                var tt = document.getElementsByClassName("draftitle").item(0);
+                tt.style.visibility = "hidden";
+                tt.style.width="0";
+            }
+            function del_draft() {
+                var wrElm = this.parentElement;
+                var time = this.parentElement.getElementsByClassName("w_time").item(0).innerText;
+                send_data("/del_draft",function(e){
+                     if(e == "success"){
+                         wrElm.remove();
+                         //隐藏草稿列表
+                         if(document.getElementsByClassName(wrElm.className).length == 0){
+                           hidelist();
+                         }
+                     }else{
+                         alert("删除失败");
+                     }
+                },"createTime="+time);
+                this.parentElement.remove();
+
+            }
+            function updatePreview(itemcontent,note) {
+                var showDraft = note.substr(0,10);
+                if(note.length > 10){
+                    showDraft += "...";
+                }
+                else{
+                    showDraft = note.substr(0,note.length);
+                }
+                itemcontent.innerText = showDraft;
+            }
+            //保存草稿,提交
+            function createDraftNote(note,time) {    
+                //显示介绍
+                var tt = document.getElementsByClassName("draftitle").item(0);
+                tt.style.visibility="visible";
+                tt.style.width="200px";
+
+                var draftitem = document.createElement("div");
+                draftitem.className = "draftItem";
+                var timeLb = document.createElement("label");
+                timeLb.className = "w_time";
+                timeLb.innerText=time;
+                var itemcontent = document.createElement("label");
+                itemcontent.className = "preview";
+                updatePreview(itemcontent,note);
+
+                var ico = document.createElement("img");
+                ico.className = "del_icon";
+                ico.src="../image/del_icon.png";
+                draftitem.appendChild(timeLb);
+                draftitem.appendChild(itemcontent);
+                draftitem.appendChild(ico);
+                ico.addEventListener("click",del_draft);
+                draftitem.addEventListener("mouseover",draftItemMove);
+                draftitem.addEventListener("mouseout",draftItemOut);
+                draftitem.addEventListener("click",draftItemClick);
+                var contain = document.getElementsByClassName("draftList").item(0);
+                contain.style.width= "200px";
+                contain.appendChild(draftitem);
+     
+               
+            }
+            //上传草稿
+            function updateDraftNote(tokenTime,note) {
+                var postData = "createTime="+tokenTime+"&"+"draftNote="+note;
+                send_data("/save_draft",pushDraft_callback,postData);
+            }
+            //获取草稿,显示到富文本
+            function getDraftNote(data) {
+                $("#EditNote").val(data["DraftNote"]);
+            }
+            //获取草稿列表
+            function draftlist_callback(data) {
+                console.log("data:",data);
+                var dlen = data.length;
+               if(dlen > 0){
+                    var list = document.getElementsByClassName("draftList").item(0);
+                     list.style.width = "200px";
+              }
+                for(var i = 0; i < dlen; i++){
+                    var obj = data[i];
+                    if(obj)
+                        createDraftNote(obj["DraftNote"],obj["CreateTime"]);
+                }
+            }
+            function get_draftlist() {
+                request_route("/get_draftlist",draftlist_callback);
+            }
+            function addDraft(crttime){
+                if(!crttime)
+                    crttime = getCurTime();
+                createDraftNote("等待编辑",crttime,true);
+                 //时间作为更新或新建的标识
+                document.getElementById("EditNote").className = crttime;
+            }
+            //检查是否为修改笔记请求
+            function IsmodifyNote() {
+                    var noteid=sessionStorage.getItem("ArticleId");
+                    console.log("note:",noteid);
+                    if(noteid){
+                        var note = sessionStorage.getItem("Article");
+                       // addDraft();
+                        //时间作为更新或新建的标识
+                        document.getElementById("EditNote").className = getCurTime();
+                        document.getElementById("ArticleId").innerText=noteid;
+                        $("#EditNote").val(note);
+                        sessionStorage.removeItem("ArticleId");
+                        sessionStorage.removeItem("Article");
+
+                    }     
+            }
+
+            function init_newnote(){
+                get_draftlist(); 
+                IsmodifyNote();
+            }
+
+            // function sel_change(){
+            //     var sel = document.getElementById("import_note");
+            //     var suffix = sel[sel.selectedIndex].value;
+            //      var selfile = document.getElementById("importfile");
+            //     selfile.accept = suffix;
+            //     selfile.click();
+
+            //     var filedom = document.getElementById("importfile");
+            //     readiofile(filedom,function(e){
+            //         $("#EditNote").val(e);
+            //         sel[0].selected=true;
+            //     });
+            // }
+        </script>
+    </head>
+    <body onload="init_newnote()">
+        <div id="ArticleId" style="display: none;"></div>
+        <div class="newnote_back">
+           <div class="draftList">
+            <p class="draftitle">草稿
+                <img onclick="addDraft()" style="cursor: pointer;"  src="../image/addnote.png"/>
+            </p>
+
+           </div>
+            <div>
+                <div class="toolbar">
+                    <button onclick="pushNote()" class="btnExt">发布</button>
+                    <button onclick="pushDraft()"  class="btnExt">保存草稿</button>
+                    <button onclick="clearNote()"  class="btnExt">清空</button>
+
+                    <!-- <input type="file" id="importfile" style="display: none;">
+                    <select onchange="sel_change()" id="import_note" class="btnExt" style="padding-left: 10px;">
+                        <option disabled selected>导入笔记</option>
+                        <option value=".txt">从txt导入</option>
+                        <option value=".doc,.docx,pdf">从word导入</option>
+                    </select> -->
+                </div>
+                <textarea id="EditNote" ></textarea>
+
+            </div>
+ 
+
+        </div>
+    </body>
+</html>

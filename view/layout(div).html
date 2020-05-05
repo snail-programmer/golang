@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta charset="utf8">
+    <style type="text/css">
+         .back{background:linear-gradient(to left top,darkcyan,darkgoldenrod);opacity: 0.6;
+             box-shadow: 7px 7px 3px gray;font-family:"微软雅黑 Light";color:bisque;}
+     </style>
+    <script>
+        function add(current){
+            var root=document.getElementById("dvs");
+            root.removeChild(current);
+
+            var wid=(document.body.clientWidth-6*30)/5;
+            for(i=0;i<20;i++){
+                var para=document.createElement('div');
+                var sle="width:"+wid+";height:300px;margin-top:30px;";
+                para.style=sle;
+                para.className="back";
+                root.appendChild(para);
+            }
+
+        }
+    </script>
+</head>
+<body>
+<div id="dvs" style=" display: flex;flex-wrap: wrap;justify-content: space-around;" >
+    <button   onclick="add(this)">click</button>
+</div>
+
+
+</body>
+</html>

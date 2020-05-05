@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<data id="mynote">
+<content>
+<div class="cagItem">
+<div id="leftline">
+</div>
+<p id="CategoryName" class="tag1" onclick="createDom()">naV</p>
+<p  class="info1">
+----共
+<p id="Cnt" class="info1">0</p>
+<p class="info1">篇笔记</p>
+</p>
+<p  class="info1" style="margin-left: 100px;">
+浏览
+<p id="View_sum" class="info1">0</p>
+</p>
+<div class="vline">
+</div>
+<p class="info1">
+收藏
+<p id="Collect_sum" class="info1">0</p>
+</p>
+<div class="circle">
+<p class="rightnext">></p>
+</div>
+</div>
+</content>
+</data>

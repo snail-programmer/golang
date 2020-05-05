@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="136px" height="136px" viewBox="0 0 136 136" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>2273BC40-EDAA-4603-9D58-07732FB697DB</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="97.4552926%" y2="97.4552926%" id="linearGradient-1">
+            <stop stop-color="#40F48B" offset="0%"></stop>
+            <stop stop-color="#27CB8B" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="56" cy="52" r="44"></circle>
+        <filter x="-38.1%" y="-33.5%" width="203.4%" height="203.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="12" dy="16" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.17254902   0 0 0 0 0.82745098   0 0 0 0 0.545098039  0 0 0 0.357421875 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="官网" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="云笔记官网_win" transform="translate(-754.000000, -1296.000000)">
+            <g id="文档管理_图" transform="translate(321.000000, 770.000000)">
+                <g id="Group-11" transform="translate(115.000000, 223.000000)">
+                    <g id="Group-49">
+                        <g id="Group-28" transform="translate(318.000000, 303.000000)">
+                            <g id="excle-icon">
+                                <g id="Oval-12">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                                    <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                                </g>
+                                <path d="M50.2274565,63 L55.12,63 L55.12,66.96 L43.0430064,66.96 L39.28,66.96 L51.1271677,51.12 L39.28,35.28 L47.2656645,35.28 L55.12,45.7814698 L62.9743355,35.28 L70.96,35.28 L59.1128323,51.12 L70.96,66.96 L62.9743355,66.96 L55.12,56.4585302 L50.2274565,63 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

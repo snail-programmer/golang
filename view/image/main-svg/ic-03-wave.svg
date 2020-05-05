@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="591px" height="591px" viewBox="0 0 591 591" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>F49FA630-F391-4ADE-976C-41438799B2E9</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="3.061617e-15%" id="linearGradient-1">
+            <stop stop-color="#4ABEFF" stop-opacity="0.609856205" offset="0%"></stop>
+            <stop stop-color="#248AFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="官网" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="云笔记官网_mac" transform="translate(-472.000000, -2390.000000)" fill="url(#linearGradient-1)">
+            <g id="Group-25" transform="translate(472.000000, 2390.000000)">
+                <g id="Group-61">
+                    <g id="Group-24">
+                        <path d="M295.5,591 C132.299571,591 0,458.700429 0,295.5 C0,132.299571 132.299571,0 295.5,0 C458.700429,0 591,132.299571 591,295.5 C591,458.700429 458.700429,591 295.5,591 Z" id="Fill-1" opacity="0.049999997"></path>
+                        <path d="M492,295.5 C492,399.605857 407.605857,484 303.5,484 C199.394143,484 115,399.605857 115,295.5 C115,191.394143 199.394143,107 303.5,107 C407.605857,107 492,191.394143 492,295.5" id="Fill-1" opacity="0.0799999982"></path>
+                        <path d="M410,296 C410,358.960571 358.960571,410 296,410 C233.039429,410 182,358.960571 182,296 C182,233.039429 233.039429,182 296,182 C358.960571,182 410,233.039429 410,296" id="Fill-1" opacity="0.100000001"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

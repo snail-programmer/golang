@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="136px" height="136px" viewBox="0 0 136 136" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>30CBE898-0EB0-4B3E-99B6-F28529C83983</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <linearGradient x1="2.34375%" y1="2.34375%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#5CD5FF" offset="0%"></stop>
+            <stop stop-color="#1783FF" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="56" cy="52" r="44"></circle>
+        <filter x="-38.1%" y="-33.5%" width="203.4%" height="203.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="12" dy="16" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.152941176   0 0 0 0 0.592156863   0 0 0 0 1  0 0 0 0.30785779 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="官网" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="云笔记官网_mac" transform="translate(-903.000000, -1270.000000)">
+            <g id="文档管理_图" transform="translate(321.000000, 770.000000)">
+                <g id="Group-11" transform="translate(115.000000, 198.000000)">
+                    <g id="Group-29" transform="translate(467.000000, 302.000000)">
+                        <g id="world-icon">
+                            <g id="Oval-13">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                            </g>
+                            <path d="M70.4247647,37.48 L64.9437113,37.48 C64.7414229,37.48 64.5738124,37.6210928 64.5738124,37.7911774 L64.5738124,41.1619434 C64.5738124,41.332028 64.7414229,41.4731208 64.9437113,41.4731208 L68.8565476,41.4731208 C69.0877344,41.4731208 69.2630511,41.6528692 69.2206668,41.8461471 L65.5852546,57.0203927 L64.4717049,57.0203927 L59.8730144,37.7312612 C59.840263,37.5863028 59.688065,37.48 59.5108218,37.48 L52.8699814,37.48 C52.6965913,37.48 52.5443933,37.5805045 52.5097153,37.7254629 L47.3426906,57.0203927 L46.3408812,57.0203927 L42.3259374,37.7389923 C42.297039,37.5882356 42.140988,37.48 41.9637448,37.48 L36.1301315,37.48 C35.8970182,37.48 35.719775,37.6597484 35.7679389,37.8568918 L42.8557404,66.2687388 C42.8904185,66.41563 43.0426164,66.52 43.2179331,66.52 L49.8626266,66.52 C50.0340901,66.52 50.1843616,66.41563 50.2228927,66.2706715 L55.5748668,45.7271667 C55.6596353,45.3947288 56.2221898,45.3966616 56.2973255,45.7329651 L61.204265,66.266806 C61.238943,66.4117644 61.391141,66.52 61.5664577,66.52 L68.0454673,66.52 C68.2188574,66.52 68.3710554,66.41563 68.4057334,66.2706715 L76.2314061,37.8588246 C76.2814966,37.663614 76.1061799,37.48 75.8730666,37.48 L70.4247647,37.48" id="Imported-Layers" fill="#FFFFFF"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

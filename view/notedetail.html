@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>学霸笔记</title>
+        <!-- <link rel="stylesheet" type="text/css" href="./css/layout.css"> -->
+        <script src="plugins/xheditor/jquery/jquery-1.11.2.min.js"></script>
+        <script src="plugins/xheditor/xheditor-1.2.2.min.js"></script>
+        <script src="plugins/xheditor/xheditor_lang/zh-cn.js"></script>
+        <script src="script/ajax_request.js"></script>
+        <script src="script/show_mask.js"></script>
+        <script src="script/tools.js"></script>
+        <script src="script/warning.js"></script>
+        <style>
+        
+            .note-detail-tools{
+                width: 20cm;
+                margin: 0 auto;
+                height: 50px;
+                background-color: rgb(223, 211, 233);
+                margin-top: 10px;
+                margin-bottom: 0px;
+                padding: 20px;
+                box-shadow: 2px 2px 5px #8e8d92;
+            }
+            .note-detail-tools .catename-title{
+                width: 15cm;
+                height: 30px;
+                float: left;
+            }
+            .note-detail-tools .re_note_edit{
+                float: right;
+                color: rgb(102, 98, 98);
+                background:none;
+                cursor: pointer;
+                width: 90px;
+                height: 30px;
+                border-color: cadetblue;
+                border: 1px #248aff solid;
+                border-radius: 4px;
+                margin-top: 10px;
+                margin-right: 20px;
+             }
+            .note_content{
+                width: 20cm;
+                margin: 0 auto;
+                background-color: white;
+                box-shadow: 1px 2px 5px #8e8d92;
+                padding: 20px;
+                height: auto;
+            }
+  
+            .note_content p{
+                width: 100%;
+            }
+            .note_content img{
+                max-width: 20cm;
+                background-size: cover;
+            }
+            .collect_img,.coin_img{
+                float: right;
+                width: 30px;
+                height: 30px;
+                background-size: cover;
+                display: none;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .coin_img{
+                margin-right: 16px;
+            }
+
+        </style>
+        <script>
+      
+            //查看笔记成功回调
+            function view_callback(data) {
+               console.log("view_note_back:",data);
+                //存储session
+               sessionStorage.setItem("_ArticleId",data.ArticleId);
+               sessionStorage.setItem("_Article",data.Article);
+               sessionStorage.setItem("_AuthorId",data.AuthorId);
+               var content = document.getElementsByClassName("note_content").item(0);
+                content.innerHTML = data["Article"]; 
+               
+                //当前用户显示编辑按钮
+                var userId = localStorage.getItem("MyUserId");
+                if (userId == data.AuthorId){
+                    var contain = document.getElementsByClassName("note-detail-tools").item(0);
+                    var btn = document.createElement("button");
+                    btn.innerText="编辑";
+                    btn.className="re_note_edit";
+                    btn.addEventListener('click',edit_note);
+                    contain.appendChild(btn);
+                }else{
+                    //显示是否收藏、打赏按钮
+                    var colimg = document.getElementsByClassName("collect_img").item(0);
+                    colimg.style.display="block";
+                    var coinimg = document.getElementsByClassName("coin_img").item(0);
+                    coinimg.style.display="block";
+                }
+            }
+            //请求文章
+            var aid = getQueryVariable("ArticleId");
+            var route = getQueryVariable("ope");
+            send_data(route,view_callback,"noteId="+aid);
+            function init_detailPage(){
+                var catename = getQueryVariable("catename");
+                var title = document.getElementsByClassName("catename-title").item(0);
+                catename=decodeURI(catename);
+                title.innerText = catename;
+                //查询笔记收藏状态
+                send_data("/getCollectState",function(e){
+                    console.log("e",e);
+                    if(e["state"] == "true"){
+                        var doc = document.getElementsByClassName("collect_img").item(0);
+                        doc.src="./image/collect_sel.png";
+                    }
+                },"noteId="+aid);
+            }
+
+        </script>
+    </head>
+    <body onload="init_detailPage()">
+        <script>
+            function edit_note(){
+               var p_id = sessionStorage.getItem("_ArticleId");
+               var p_note = sessionStorage.getItem("_Article");
+               sessionStorage.setItem("ArticleId",p_id);
+               sessionStorage.setItem("Article",p_note);
+                window.top.document.location="mine.html?page=newnote";
+            }
+            
+            function sel_change_state(ope){
+                var doc = document.getElementsByClassName("collect_img").item(0);
+                var sr = doc.src;
+                var noteId = getQueryVariable("ArticleId");
+                send_data("/colcel_note",function(e){
+                        if(e["state"]=="success"){
+                             if(sr.indexOf("collect.png") > -1){
+                                doc.src="./image/collect_sel.png";
+                            }else{
+                                 doc.src="./image/collect.png";
+                            }
+                        }else{
+                            show_warn("提示",e["msg"]);
+                        }
+                    },"noteId="+noteId+"&ope="+ope);
+            }
+            function sel_click(){
+                var sr = document.getElementsByClassName("collect_img").item(0).src;
+                 if(sr.indexOf("collect_sel.png") > -1){
+                    show_warn("提示","取消收藏?",function(){
+                        sel_change_state("delt_collect");
+                    });
+                }else{
+                    sel_change_state("add_collect");
+                }
+            }
+            //打赏框
+            function show_gratuity(){
+                var warn = new CWarnInfo("input");
+                warn.show_warn("打赏","打赏金币数量范围[1,10]",function(arg){
+                     coin = parseInt(arg,10);
+                     if(coin < 1 || coin > 10){
+                         show_warn("超出范围","可打赏金币数量[1,10]");
+                     }else{
+                         //提交
+                         //获取作者id
+                        var aid = sessionStorage.getItem("_AuthorId");
+                        var postData = "coin="+coin+"&authorId="+aid;
+                        send_data("/GiveGratuity",function(e){
+                            if(e.state!="success"){
+                                show_warn("提示",e.msg);
+                            }
+                        },postData);
+                     }
+                });
+            }
+        </script>
+        <div class="note-detail-tools">
+            <p class="catename-title"></p>
+            <!-- <button onclick="edit_note()" class="re_note_edit" >编辑</button> -->
+            <img src="./image/collect.png" onclick="sel_click()" class="collect_img">
+            <img src="./image/coin.png" class="coin_img" onclick="show_gratuity()" >
+        </div>
+         <div  class="note_content">
+        </div>
+    </body>
+</html>

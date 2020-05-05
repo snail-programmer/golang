@@ -1,0 +1,320 @@
+#topBack{
+    background-color: #3a3939;
+    width: 100%;
+    height: 100px;
+    color: aliceblue;
+}
+#topBack h1,p{
+    line-height: 100%;  
+    float: left;
+    text-align: center;
+    margin-top: 30px;
+    margin-left: 10px;
+}
+#topBack #note-search{
+    position: relative;
+    float: left;
+    width: 400px;
+    height: 27px;
+    background:none;
+    border: 1px rgb(90, 161, 189) solid;
+    border-radius: 13px;
+    margin-top: 35px;
+    margin-left: 200px;
+}
+#topBack #note-search   #search,#filter{
+     width: 313px;
+    height: 25px;
+    left: 10px;
+    font-size: 10px;
+    font-family: "微软雅黑";
+    background: none;
+    border: none;
+    outline: none;
+    margin-left: 10px;
+}
+#note-search #filter{
+    width: 60px;
+     border-left: 0.5px rgb(90, 161, 189) solid;
+}
+#topBack span:hover{
+    background-color: blueviolet;
+}    
+#topBack input:hover{
+    background-color: rgb(70, 68, 68);
+}
+#topBack div:hover{
+    background-color: rgb(50, 51, 50);
+}
+ 
+#navItem{
+    float: right;
+    width:100px;
+    line-height: 100px;
+    height: 100%;
+    margin-right:20px;
+    cursor: pointer;
+    text-align: center;
+}
+#topBack #loginhead{
+    position: relative;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 40px;
+    cursor: pointer;
+    background-color: rgb(100, 96, 96);
+    margin-top: 30px;
+    background: url('../image/userimg/1111111111.jpg') no-repeat;
+    background-size: cover;
+    visibility: hidden;
+}
+#loginhead div{
+    position: relative;
+    float: right;
+    margin-top: 100%; 
+}
+#loginhead #nickname{
+    float: left;
+    color: rgb(126, 125, 128);
+    font-size: 12px;
+    margin-top:  -10px;
+    width: 100px;
+    margin-left: 46px;
+    text-align: start;
+}
+#loginhead .dropDown{
+    margin-top:  40px;
+ 
+    height: 0px;
+}
+.dropdown-toggle{
+    margin-top: 0px;
+}
+#btnStyle{
+    float: right;
+    height:40px;
+    width: 120px;
+    border: 1px #248aff solid;
+    border-color: cadetblue;
+    margin-top: 30px;
+    margin-right: 20px;
+    background:none;
+    color: wheat;
+    cursor: pointer;
+    
+}
+#mediumBack{
+
+    height: 500px;
+    width:100%;
+    overflow: hidden;
+}
+#textframe{
+    margin-top: -200px;
+    position: relative;
+    text-align: center;
+}
+#textframe p{
+    color: white;
+    font-size: 20px;
+    margin-top: 70px;
+
+}
+#photo1{
+    width: 100%;
+     animation: move 10s ease-out infinite;
+}
+#photo2{
+    width: 100%;
+     animation: move2 10s ease-out infinite;
+}
+#photo1> img, #photo2>img{
+    width:100%;
+   height: 500px;
+}
+@keyframes move {
+    0%,30%{
+        opacity: 1;
+    }
+    30%,70%{
+        opacity: 0;
+    }   
+    70%,100%{
+        opacity: 1;
+    }
+}
+@keyframes move2 {
+    0%,30%{
+        opacity: 0;
+    }
+    30%,70%{
+        opacity: 1;
+    }   
+    70%,100%{
+        opacity: 0;
+    }
+}
+#contain3{
+    width: 100%;height: 600px; 
+    animation-delay: 0.4s;
+}
+#contain3 div{
+    width: 130px;
+    height: 130px;
+     box-shadow:7px 7px 7px #888888;
+    color: white;
+    text-align: center;
+    border-radius: 3px;
+    line-height: 130px;
+    font-size: 40;
+    font-weight: normal;  
+}
+/* notelist.html */
+.note-library{
+    color: #666666;
+    font-size: 20;  
+    float: none;
+    color: rgb(35, 94, 202);
+    cursor: pointer;
+}
+#sort_type{
+    margin-left: 40px;
+    width: 140px;
+    padding-left: 10px;
+    text-align: center;
+}
+#note_list{
+    float: left;
+    width: 67%;
+    height: auto;
+    padding-bottom: 10px;
+    margin-top: 280px;
+    margin-left: 110px;
+
+}
+#note_list .item{
+    float: left;
+    width: 260px;
+    height: 340px;
+    border-radius: 2px;
+    border: 1px solid #dfdddd;
+    margin-top: 20px;
+    margin-left:20px;
+    margin-right: 20px;
+  }
+ #note_list .head{
+     float: left;
+     width: 70px;
+     height: 70px;
+     border-radius: 35px;
+     margin-left: 20px;
+     margin-top: 20px;
+
+ }
+ #note_list #header_item{
+    background:url("../image/userimg/1111111111.jpg") no-repeat;
+    background-size:cover;
+ }
+
+ .item #project,#catedetail ,#authorName{
+    position: relative;
+    margin-top: 10px;
+    margin-left: 30px;
+    font-size: 17px;
+    width: 100px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+ }
+ .item #catedetail{
+    font-size: 10px;
+    color:#696366;
+    width: 84%;
+    margin-top: 12px;
+ }
+ .item #project{
+     margin-top: 30px;
+ }
+ .item #authorName{
+    font-size: 10px;
+    margin-top:11px;
+    margin-left:36px;
+ }
+ .item .divide_line{
+    width: 90%;
+    height:0.5px;
+    background-color: #727171;
+    margin-top: 4px;
+    margin-left: 5%;
+    opacity: 0.5;
+    margin-bottom: 5px;
+ }
+ .item #description{
+   font-family: "微软雅黑";
+    font-size: 12px;
+    margin-left: 20px;
+    margin-top: 10px;
+    color: #6d6b6b;
+    font-weight: normal;
+    height:40px;
+    width: 80%;
+ }
+ .item .descibe_btn{
+ 
+     width: 140px;
+     height: 30px;
+     border: 1px rgb(49, 88, 172) solid;
+     border-radius: 5px;
+     margin-top:50px;
+     margin-left: 66px;
+     background: none;
+     outline: none;
+ }
+ .customfont{
+    font-family: '微软雅黑';
+    font-size: 10px;
+    font-weight: normal;
+ }
+ #loading{
+    float: left;
+    width: 40%;
+    margin-left: 20%; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #dfdfdf;
+    display: block;
+ }
+ #loading img{
+     margin:10px;
+ }
+ .footer{
+    width: 100%; 
+    margin-top:  20px;  
+    float: left;
+    bottom: 0px; 
+    height: 100px;
+    background-color: #485571;
+    display: flex; 
+    justify-content: center;
+    padding-top: 30px; 
+ }
+ .footer   img{
+    width: 50px;
+    height:50px;
+ }
+ .footer  label{
+    color: white;
+    margin-top:15px;
+    margin-left: 20px;
+ }
+ .logo{
+     width:60px;
+     height:60px;
+     float: left;
+     margin-top:20px;
+    margin-left: 20px;
+    margin-right:10px;
+ }

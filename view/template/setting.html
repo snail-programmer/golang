@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+        <link rel="stylesheet" type="text/css" href="../css/setting.css"/>
+        <script src="../script/jquery.min.js"></script>
+        <script src="../script/jquery.form.js"></script>
+        <script src="../script/show_mask.js"></script>
+        <script src="../script/ajax_request.js"></script>
+        <script src="../script/check_identify.js"></script>
+        <script>
+            // var href = window.location.href;
+            // var sp = href.substring(href.length-5);
+            // if(sp.indexOf("html",0)>=0){
+            //     document.location="mine.html";
+            // }
+        </script>
+        <script>
+            function init(){
+                var file = document.getElementsByName("uploadimg").item(0);
+                var up = document.getElementsByClassName("up").item(0);
+                //图像读取完成时预览
+                file.onchange=function(){
+                    var reader = new FileReader();
+                    var getfile = file.files[0];
+                    reader.readAsDataURL(getfile);
+                    reader.onload=function(e){
+                        $(".up").attr("src",this.result);
+                    }
+                    var btn = document.getElementById("upbtn");
+                    btn.disabled=false;
+                }
+                //默认选中之前的教育背景
+                var education = "{{.Education}}";
+                var sel_edu = document.getElementsByName("Education").item(0);
+                for(var i=0;i<sel_edu.options.length;i++){
+                    if(sel_edu.options[i].value == education){
+                        sel_edu.options[i].selected = true;
+                        break;
+                    }
+                }
+                //禁用
+                var btn = document.getElementById("upbtn");
+                
+                btn.disabled=true;
+                function enable(){
+                    btn.disabled = false;
+                }
+                $('input').bind('input propertychange', enable);
+                $('select').bind('input propertychange', enable);
+                $("textarea").bind('input propertychange', enable);
+            }
+            //上传设置
+            function uploadSet(){
+                $("#setinfo").ajaxSubmit(function(result) {
+    	            if (result == "success") {   
+                        hide_mask();
+                         window.top.document.location="http://localhost:9000/mine.html?page=setting";
+    	            }else{
+                        alert("更新失败");
+                        hide_mask();
+                    }
+                });
+            }
+            //提交前上传图片
+            function dealWhenSubmit(){
+                //上传头像
+                var file = document.getElementsByName("uploadimg").item(0);
+                if(file.files[0]){
+                    show_mask("正在更新...");
+                    $("#uploadfile").ajaxSubmit(function(result) {
+    	            if (result == "success") {   
+                        uploadSet();
+    	            }else{
+                        hide_mask();
+                    }
+                    });   		 
+                }else{
+                    show_mask("正在更新...");
+                    uploadSet();
+                }    
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <div class="back">
+            <div class="topline"></div>
+           
+            <form id="uploadfile" target="nojump" enctype="multipart/form-data" action="/upload" method="post">
+                <!-- 预览 -->
+             <img   class="up" style="background-size: cover;" src="{{.HeadImg}}" /> 
+             <!-- 文件上传 -->
+            <input   type="file"  name="uploadimg" />   
+            </form>
+
+            <form id="setinfo" method="POST" action="updateUserConfig">
+                <p>
+                    <label>笔名昵称:</label>
+                    <input name="NickName" value="{{.NickName}}"/>
+                </p>
+                <p>
+                    <label>最高学历:</label>
+                    <select name="Education">
+                        <option value="初中">初中</option>
+                        <option value="高中">高中</option>
+                        <option value="大学">大学</option>
+                    </select>
+                </p>
+                <p>
+                    <label>学校:</label>
+                    <input name="School" value="{{.School}}"/>
+                </p>
+                <p>
+                    <label>个人简介:</label>
+                    <textarea name="Description" maxlength="200">{{.Description}}</textarea>
+                </p>
+                <p>
+                    <label>其他设置:</label>
+                    <select onchange="sel_otherset(this)">
+                        <option disabled selected value="0">请选择</option>
+                        <option>修改账号</option>
+                        <option>修改密码</option>
+                        <option>永久注销</option>
+                    </select>
+                </p>
+            </form>
+            <button id="upbtn" onclick="dealWhenSubmit()" style="margin-left: 334px;">保存</button>
+        </div>
+        <script>
+            function sel_otherset(_this){
+              var vk = _this[_this.selectedIndex].innerText;
+              document.location="template/othersetting.html?seType="+vk;
+            }
+        </script>
+        <iframe name="nojump" style="display: none;" ></iframe>
+    </body>
+</html>

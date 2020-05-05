@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="../css/setting.css"/>
+        <script src="../script/jquery.min.js"></script>
+        <script src="../script/jquery.form.js"></script>
+        <script src="../script/ajax_request.js"></script>
+        <script src="../script/tools.js"></script>
+        <script src="../script/show_mask.js"></script>
+        <script src="../script/warning.js"></script>
+        <style>
+            #otherset{
+                width: 500px;
+                height: 240px;
+                margin: 0 auto;
+                background-color: white;
+                margin-top: 5%;
+                padding-top: 50px;
+                border-radius: 10px;
+                box-shadow: 2px 2px 6px rgb(105, 121, 81);
+                text-align: center;
+            }
+            #otherset >p {
+                margin-top: 34px;
+                margin-bottom: 34px;
+                border-radius: 4px;
+            }
+            #otherset label{
+                display: inline-block;
+                width: 100px;
+                text-align: right;
+                margin-right: 10px;
+            }
+            #otherset   input{
+                height: 24px;
+                border: 1px solid seagreen;
+                border-radius: 5px;
+            }
+            #otherset > #otherbtn{
+                width: 100px;
+                height: 26px;
+                margin-left: 180px;   
+                background: none;
+                border: 1px solid seagreen;
+                border-radius: 5px;
+                outline: none;
+                cursor: pointer;
+            }
+        </style>
+               <script>
+                function init(){
+                    //修改账号 or 修改密码
+                    var param = getQueryVariable("seType");
+                    param = decodeURI(param);
+                    var frm = document.getElementById("otherset");
+                    var one= document.getElementById("title1");
+                    var two = document.getElementById("title2");
+                    var inp1= document.getElementById("input1");
+                    var inp2= document.getElementById("input2");
+                    switch (param) {
+                        case "修改账号":
+                            frm.action="/modifyAccount";
+                            one.innerText = "新手机号";
+                            two.innerText="验证码";
+                            inp1.name="newPhone";
+                            inp2.name="verifyCode";
+                            break;
+                        case "永久注销":
+                            frm.style.visibility="hidden";
+                            show_warn("警告","所有账号数据将被删除,是否继续?",function(){
+                                //delete all user data
+                            });
+                            break;
+                    }
+                    //禁用
+                    var btn = document.getElementById("otherbtn");
+                    btn.disabled=true;
+                    function enable(){
+                        btn.disabled = false;
+                    }
+                    $('input').bind('input propertychange', enable);
+                    $('select').bind('input propertychange', enable);
+                    $("textarea").bind('input propertychange', enable);
+                }
+                //上传设置
+                function updateAcntPass(){
+                    show_mask("正在更新...");
+                    $("#otherset").ajaxSubmit(function(result) {
+                        if (result == "success") {   
+                            hide_mask();
+                            show_warn("提示","更新成功!");
+                        }else{
+                            hide_mask();
+                            show_warn("提示",result);
+                        }
+                    });
+                }
+         
+            </script>
+    </head>
+    <body onload="init()">
+
+            <form id="otherset" target="nojump" method="POST" action="/modifyPassword">
+ 
+                <p>
+                    <label id="title1">原密码:</label>
+                    <input  id="input1" name="Password" value=""/>
+                </p>
+                <p>
+                    <label id="title2">新密码:</label>
+                    <input id="input2" name="newPassword" value=""/>
+                </p>
+                <button  id="otherbtn" onclick="updateAcntPass()">保存</button>
+
+            </form>
+    <iframe name ="nojump" style="display: none;"></iframe>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="217px" height="217px" viewBox="0 0 217 217" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>4C077EAC-CAEE-4968-BE2F-958A6036EFFB</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <filter x="-46.5%" y="-46.5%" width="192.9%" height="192.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="19.9793527" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+    </defs>
+    <g id="官网" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.4">
+        <g id="云笔记官网_win" transform="translate(-1514.000000, -3487.000000)" fill="#164E84">
+            <g id="Group-65" transform="translate(1514.000000, 3487.000000)">
+                <g id="Group-Copy">
+                    <g id="Group-64">
+                        <path d="M173,108.5 C173,144.122429 144.122429,173 108.5,173 C72.8775714,173 44,144.122429 44,108.5 C44,72.8775714 72.8775714,44 108.5,44 C144.122429,44 173,72.8775714 173,108.5" id="Fill-1" filter="url(#filter-1)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,73 @@
+.back{
+    width: 60%;
+    height:500px;
+    margin-left: 20%;
+    border-radius: 2px;
+    border: 1px solid #949292 ;
+    margin-top:40px;
+   text-align: center;
+}
+.back .topline{
+     width: 100%;
+    height: 7px;
+    background-color: rgb(26, 103, 219);
+}
+.back .adjustInfo{
+    margin-top:40px;
+    margin-bottom: 40px;
+    color: #398dee;
+    font-size: 22px;
+    text-align: center;
+}
+#personInfo{
+     text-align: center;
+}
+#uploadfile  .up,input[name="uploadimg"]{
+    opacity: 0; 
+    position: absolute; 
+    margin-left:-60px;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    background-size: cover;
+    margin-bottom: 20px;
+    cursor: pointer;
+ 
+}
+#uploadfile .up{
+    margin: 0 auto;
+    opacity: 1;
+    margin-bottom: 17px;
+    position: relative;
+    font-size: 10;
+    text-align: center;
+}
+#personInfo label{
+    text-align: right;
+    width:100px;
+    display: inline-block;
+     margin-right: 30px;
+}
+#personInfo input{
+    width: 300px;
+    height: 30px;
+    margin:0 auto;
+   
+    
+}
+#personInfo select,textarea{
+    width: 300px;
+    height:30px;
+    display: inline-block;
+}
+#personInfo textarea{
+    height: 50px;
+    vertical-align:top;
+    resize: none;
+}
+.back button{
+    width:100px;
+    height:30px;
+    border: 1px cadetblue solid;
+    cursor: pointer;
+}

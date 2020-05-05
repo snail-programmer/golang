@@ -1,0 +1,62 @@
+._screen_mask{
+    position: absolute;
+    left: 0; 
+    top:0;
+    background:  rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+ ._warn_content{
+    position: absolute;
+    z-index: 9999;
+    width: 400px;
+    height: 200px;
+    background-color: white;
+    left: 0;
+    right: 0;
+    margin:0 auto;
+    top: 140px;
+    text-align: center;
+    border-radius: 5px;
+    font-family: "微软雅黑";
+}
+._warn_content > .warn_head{
+    font-size: 20px; 
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 24px;
+    color: #e6454a;
+    float: none;
+}
+._warn_content > .warn_info{
+    font-size: 17px;
+    font-weight: 300;
+    margin-top: 30px;
+    width: 85%;
+    color: #444444;
+    float: none;
+}
+
+._warn_content > .warn_btn{
+    width: 100px;
+    height: 30px;
+    background: none;
+    border: 1px solid cadetblue;
+    color: #444444;
+    margin: 0 auto;
+    margin-top: 44px;
+    margin-right: 20px;
+    margin-left: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    float: none;
+}
+._warn_content > .warn_btn_ok{
+    background-color: #eb464c;
+    border: none;
+    color: white;
+}

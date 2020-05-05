@@ -1,0 +1,25 @@
+<table>    
+    <tr id="personal-notelist" class="font-size:10px;">
+        <td  style="width: 70px;">
+            <img class="headimg"  style="margin-left: 20px; width: 40px;
+            height: 40px;background-size: cover; border-radius: 20px;"/>
+        </td>
+        <td id="NickName" class="catename"  style="width:140px; margin-right: 10px; ">
+            昵称
+        </td>
+        <td id="CategoryName" style="width: 36%;margin-right:20px; ">
+        </td>
+        <td id="ArticleId" style="width: 200px;height: 40px;">
+            <p id="noteId" style="display: none;"></p>
+            <div class="view_del" style="height: 40px;" >
+                <div class="circle_del">
+                    <p id="colcel_note" class="rightnext" onclick="colcel_note(this,this.id)">  × </p>
+                </div>
+                <div class="circle_view">
+                    <p id="view_note" class="rightnext" onclick="deal(this,this.id)">></p>
+                </div>
+            </div>
+            <button class="viewbtn" style="display: none; margin-left: 40px;" onclick="deal(this,'view_note')">查看</button>  
+         </td>
+    </tr>
+</table>

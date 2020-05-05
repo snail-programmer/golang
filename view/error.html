@@ -1,0 +1,36 @@
+ 
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/layout.css">
+        <link rel="stylesheet" href="css/mask.css">
+        <style>
+            .mask_extend{
+                box-shadow: 2px 2px 6px rgb(155, 153, 153);
+            }
+            .mask_warn{
+                position: absolute;
+                top: 0;
+                background-color: rgb(214, 195, 195);
+                height: 40%;
+                width: 100%; 
+             }
+    
+
+        </style>
+    </head>
+    <script>
+        function jump(jumpurl) {
+            document.location = jumpurl;
+        }
+    </script>
+    <body >
+         <div class="_mask_content mask_extend" >
+            <div class="mask_warn">
+                <img src="image/warn_ico_title.png" 
+                style="position: absolute;left: 20;top:40px;width: 40px;height: 40px;"/>
+            </div>
+             <p style="margin-top: -30px;font-size: 24px;">{{.error}}</p>
+        <button onclick='jump("{{.jumpUrl}}")' id="btnStyle" class="btnExtern" style=" margin-top:240px;  color: rgb(95, 93, 93);">我知道了</button>
+         </div>
+    </body>
+</html>

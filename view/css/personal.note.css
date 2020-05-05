@@ -1,0 +1,29 @@
+body{font-family:'Microsoft Yahei','微软雅黑',simsun,Arial;background-color:#fff;width:100%;}
+#personal-wrap{width:960px;padding-top:40px;position:relative;height:auto!important; margin: 0 auto;}
+.info-content{width:701px;height:270px;padding:0 38px;border:1px solid #e8e8e8;
+    border-top:3px solid #00b0ff;position:relative;}
+.info-content .info-hd{width:100%;height:142px;border-bottom:1px solid #eaeaea}
+.info-content .info-hd 
+#info-portrait{width:80px;height:80px;margin-right:20px;border-radius:50%;vertical-align:middle}
+.info-content .info-hd span{line-height:142px;font-size:12px;color:#b4b4b4}
+.info-content .info-hd .info-name{color:#333;font-size:22px;vertical-align:middle}
+.info-content .info-hd .info-right{float:right;font-style:italic;letter-spacing:1px}
+.info-content .info-hd .info-right span{display:none}
+.info-content .info-hd a{color:#398dee;text-decoration:underline}
+.info-content .info-detail{padding-left:58px}
+.info-content .info-detail .info-detail-col{width:195px;float:left;color:#666;font-size:16px;text-align:center}
+ .info-content .info-detail p{font-size:36px;line-height:1;margin-top:34px;margin-bottom:14px}
+ .info-content .info-detail .line{width:1px;height:54px;background-color:#eaeaea;display:block;float:left;margin-top:40px}
+ .personal-main{width:777px}.personal-main .note-list{margin-top:36px;display:none}
+ .personal-notes{border-left:1px solid #e8e8e8;border-right:1px solid #e8e8e8;border-top:3px solid #00cf8f;width:100%}
+ #personal-tb{width:100%}
+ #personal-tb tr{height:70px;width:100%;color:#333;font-size:14px}
+ #personal-tb tr td{border-bottom:1px solid #e8e8e8}
+ #personal-tb tr .p-note-icon{width:40px}
+ 
+ .info-content, .personal-main{
+     margin: 0 auto;
+ }
+ 
+ 
+ 

@@ -1,0 +1,74 @@
+.back{
+    width: 60%;
+    height:460px;
+    margin-left: 20%;
+    border-radius: 2px;
+    border: 1px solid #949292 ;
+    margin-top:40px;
+   text-align: center;
+    background-color: white;
+}
+.back .topline{
+ 
+    width: 100%;
+    height: 7px;
+    background-color: rgb(26, 103, 219);
+}
+#setinfo{
+     text-align: center;
+}
+#uploadfile  .up,input[name="uploadimg"]{
+    opacity: 0; 
+    position: absolute; 
+     width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    background-size: cover;
+    margin-bottom: 20px;
+    cursor: pointer;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    
+}
+#uploadfile input[name="uploadimg"]{
+    top:57px;
+}
+#uploadfile .up{
+    margin: 0 auto;
+    margin-top: 10px;
+    opacity: 1;
+    margin-bottom: 17px;
+    position: relative;
+    font-size: 10;
+    text-align: center;
+}
+#setinfo label{
+    text-align: right;
+    width:100px;
+    display: inline-block;
+     margin-right: 30px;
+}
+#setinfo input{
+    width: 300px;
+    height: 30px;
+    margin:0 auto;
+   
+    
+}
+#setinfo select,textarea{
+    width: 300px;
+    height:30px;
+    display: inline-block;
+}
+#setinfo textarea{
+    height: 50px;
+    vertical-align:top;
+    resize: none;
+}
+.back button{
+    width:100px;
+    height:30px;
+    border: 1px cadetblue solid;
+    cursor: pointer;
+}

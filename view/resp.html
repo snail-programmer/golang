@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <script  src="./script/readiofile.js">
+        </script>
+        <script>
+                function read(){
+                var file = document.getElementsByName("readio").item(0);
+                readiofile(file,function(e){
+                    var doc =document.getElementById("hello");
+                    doc.innerHTML=e;
+                });
+            }
+        </script>
+    </head>
+    <body onload="read()">
+        <input type="file" name="readio">
+        <div id="hello" style="width: 1000px;height: 200px;background-color: antiquewhite;"></div>
+    </body>
+</html>

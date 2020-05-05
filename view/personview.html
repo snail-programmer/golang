@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>学霸笔记</title>
+     <link rel="stylesheet" type="text/css" href="./css/mine.css">
+    <link rel="stylesheet" type="text/css" href="./css/mynote.css">
+    <link rel="stylesheet" href="./css/personal.note.css" type="text/css">
+    <script src="./script/ajax_request.js"></script>
+    <script src="./script/tools.js"></script>
+    <script src="./script/personview.js"></script>
+    <script src="./script/mynote.js"></script>
+    <style>
+        #manage_mynote{
+            width: 100px;
+            height: 20px;
+            background-color: rgb(15, 179, 97);
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size: 10px;
+            visibility: hidden;
+        }
+        
+    </style>
+</head>
+<body onload="req_note('全部')">
+<div id="personal-wrap" style="min-height: 263px;">
+    <div class="info-content" >
+        <div class="info-hd">
+            <img  id="info-portrait" style="background-size: cover;width: 100px;height: 100px;">
+            <span class="info-name">河北省理科状元李曼茜</span>
+            <button id="manage_mynote">管理我的笔记</button>
+            <span class="info-right">
+                 <span class="no-xueba" style="display: inline;">上传笔记，让知识流动起来</span>
+            </span>
+        </div>
+        <div class="info-detail">
+            <div class="info-detail-col">
+                <p class="personal-note">0</p>
+                <span>笔记</span>
+            </div>
+            <span class="line"></span>
+            <div class="info-detail-col">
+                <p class="personal-view">0</p>
+                <span>浏览</span>
+            </div>
+            <span class="line"></span>
+            <div class="info-detail-col">
+                <p class="personal-save">0</p>
+                <span>保存</span>
+            </div>
+        </div>
+    </div>
+ 
+<iframe id="tp_minenotelist" src="template/tp_mineNotelist.html" style="display: none;"></iframe>
+    <div class="personal-main"  >
+        <div class="note-list" style="display: block;">
+            <div class="personal-notes">   
+            <table id="personal-tb" cellspacing="0" border="0">    
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
