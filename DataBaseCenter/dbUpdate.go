@@ -5,7 +5,6 @@ import (
 	"reflect"
 
 	"../Utils"
-	_ "../lib/mysql"
 )
 
 func DeleteData(sctObj interface{}) bool {

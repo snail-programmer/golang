@@ -5,7 +5,6 @@ import (
 	"unsafe"
 
 	Utils "../Utils"
-	_ "../lib/mysql"
 )
 
 //根据条件获取主键列表

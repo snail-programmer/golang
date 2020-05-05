@@ -2,8 +2,6 @@ package DBCenter
 
 import (
 	"database/sql"
-
-	_ "../lib/mysql"
 )
 
 var db *sql.DB
