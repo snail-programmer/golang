@@ -64,3 +64,6 @@ type Visit_log struct {
 	VisitId    string
 	CategoryId string
 }
+type Reg_log struct {
+	Id string
+}

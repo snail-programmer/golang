@@ -60,6 +60,7 @@
                     <label>最高学历:</label>
                     <select name="Education">
                         <option>{{.Education}}</option>
+                        <option value="无">无</option>
                         <option value="初中">初中</option>
                         <option value="高中">高中</option>
                         <option value="大学">大学</option>
@@ -71,7 +72,7 @@
                 </p>
                 <p>
                     <label>个人简介:</label>
-                    <textarea name="Description" maxlength="200">{{.Description}}</textarea>
+                    <textarea placeholder="60字内" maxlength="60" name="Description" maxlength="200">{{.Description}}</textarea>
                 </p>
             </form>
             <button onclick="dealWhenSubmit()" style="margin-left: 334px;">下一步</button>

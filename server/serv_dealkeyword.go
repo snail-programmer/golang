@@ -77,3 +77,23 @@ func (kw *dealKeyWord) cvtArrWithSepNum(queryword string, sn int) []string {
 	}
 	return arr
 }
+
+//动态丢词完成通知回调
+type notify func(arr []string) int
+
+//动态丢词
+func (kw *dealKeyWord) dynamicDiscardWord(queryword string, callback notify) {
+	//查询用户
+	keylen := len(queryword)
+	//动态拆词,重查
+	for i := 0; i < keylen; i++ {
+		//关键字每keylen-i个字符为一组分解数组
+		retryarr := kw.cvtArrWithSepNum(queryword, keylen-i)
+		fmt.Println(retryarr)
+		//调用回调,返回搜索成功的数量
+		effect_n := callback(retryarr)
+		if effect_n > 0 { // && i >= (keylen-1)/2
+			break
+		}
+	}
+}

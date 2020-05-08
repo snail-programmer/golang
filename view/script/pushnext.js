@@ -1,23 +1,29 @@
 var topdcm=window.top.document;
+var pn_cate;
 //初始化第一个分类
 function init_categoryName() {
-  
+    var cate = pn_cate;
    var catename = topdcm.getElementsByClassName("CategoryName").item(0);
    catename.options.length=0;
-   for(var i=0; i< cate.length;i++){
-       var option = new Option(cate[i].name,cate[i].name);
-       catename.options.add(option);
+   var vkey = "";
+   for(var key in cate){
+    var option = new Option(key,key);
+    catename.options.add(option);
+    if(vkey == "")
+        vkey = key;
    }
+
    init_categoryContain();
 }
 //初始化第二个分类
 function init_categoryContain() {
+    var cate = pn_cate;
    var catename = topdcm.getElementsByClassName("CategoryName").item(0);
    var cate_sel = catename[catename.selectedIndex].value;
    var contain;
-   for(var i=0; i<cate.length;i++){
-       if(cate[i].name == cate_sel){
-           contain = cate[i].contain;
+   for(var key in cate){
+       if(key == cate_sel){
+           contain = cate[key];
            break;
        }
    }
@@ -41,8 +47,8 @@ function show_pushnext() {
 
    //请求分类 ->category ->cate array
    request_route('/categorylist',function(e){
-       category_callback(e);
-       init_categoryName();
+        pn_cate=e;
+        init_categoryName();
    });
 
  

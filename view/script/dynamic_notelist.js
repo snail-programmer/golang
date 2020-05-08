@@ -21,6 +21,8 @@ function setData(arr){
         return;
     //当前列表总长度 i -> all_len
     for(var i=0; i<arr_len; i++){
+        if(!arr[i])
+            return;
         var author = arr[i]["author"];
         var note = arr[i]["note"];
         if(!author || note.length < 1){
@@ -130,8 +132,125 @@ function menu_mouseleave(){
     return false;
  }
  
-function menu_item_enter(){
+
+var cateobj;
+function getnetmenu(arr){
+   cateobj = arr;
+}
+class brandInfo{
+    //brand1,brand2
+};
+var bainfo=new brandInfo();
+function create_navbrand(id,title){
+    var brand = document.getElementById(id);
+    if(!brand){
+        var tools = document.getElementById("note-tools");
+        brand = document.createElement("label");
+        brand.className="note-brand";
+        brand.id=id;
+        tools.appendChild(brand);
+        var del = document.getElementsByClassName("brand-del").item(0);
+        if(del)
+            del.remove();
+        del = document.createElement("label");
+        del.className="brand-del";
+        del.innerText="×";
+        del.addEventListener('click',function(){
+            if(tools.lastElementChild.id=="note-brand-1"){
+                this.remove();
+             }
+            tools.lastElementChild.remove();
+            var keyword  = tools.lastElementChild;
+            if(!keyword)
+                keyword="";
+            else
+                keyword=keyword.innerText;
+            vtsearch(keyword);
+        });
+        var nav= document.getElementById("note-nav");
+        nav.appendChild(del);
+    }
+    brand.innerText = title;
+
+}
+
+function vtsearch(keyword){
+    old_curNum=-1;
+    new_curNum =0;
+    var notes = document.getElementById("note_list_item");
+    notes.innerHTML="";
+    var sortType = $("#sort_type option:selected").val();
+    var route="/queryPartNote?curNum=0"+"&sortType="+sortType;
+    if(keyword.length > 0){
+        route+="&keyword="+keyword;
+    }
+     setTimeout(() => {
+        request_route(route,ajax_callback);
+    }, 500);
+}
+//级别 0> 点击
+function menu_item_ext_click(){
+    bainfo.brand2=this.innerText;
+    create_navbrand("note-brand-1","当前位置: "+bainfo.brand1);
+    create_navbrand("note-brand-2","  > "+this.innerText);
+    vtsearch(bainfo.brand1 + this.innerText);
+}
+//语文/数学 > 点击事件
+function menu_item_click(){
+    var b2 = document.getElementById("note-brand-2");
+    if(b2){
+        b2.innerHTML="";
+    }
+    create_navbrand("note-brand-1","当前位置: "+bainfo.brand1);
+    vtsearch(bainfo.brand1);
+}
+//中部，创建导航菜单
+function createMenu(_this,func){
+ 
     var menu=document.getElementById("expandMenu");
+    menu.innerHTML="";
+    menu.style.top=_this.offsetTop;
+    var arrItem=new Array();
+    arrItem=cateobj;
+
+    for(var key in arrItem){
+        if(_this.innerText == "学科分类" && (key=="专题" || key=="试题")){
+            continue;
+        }
+        if(_this.innerText == "其他综合" && key!="专题"){
+            continue;
+        }
+        if(_this.innerText == "考题试卷" && key != "试题"){
+            continue;
+        }
+    var menu_item=document.createElement("ul");
+    menu_item.id="menuItem";
+    //创建分类名称
+    menu_item.innerText=key;
+    menu_item.addEventListener('click',menu_item_click);
+    menu_item.addEventListener('mouseenter',menu_item_enter);
+    menu_item.addEventListener('mouseleave',menu_item_mouseleave)
+    var menu_item_line=document.createElement("label");
+    menu_item_line.className="separate";
+    menu_item.appendChild(menu_item_line);
+    menu.appendChild(menu_item);
+    }
+}
+ //分类名称的扩展分类
+ function menu_item_enter(){
+        //当前学科
+    var proj;
+    for(var key in cateobj){
+        //去空格
+        var v1 = key.replace(/^\s+|\s+$/g, '');
+        var v2 = this.innerText.replace(/^\s+|\s+$/g, '');
+        if(v1 == v2){
+            proj=cateobj[key];
+            break;
+        }
+    }
+    bainfo.brand1 = this.innerText;
+     var menu=document.getElementById("expandMenu");
     var itemContain=document.getElementById("expandItem");
     if(!itemContain){
         itemContain=document.createElement("div");
@@ -140,54 +259,17 @@ function menu_item_enter(){
     }
     itemContain.innerHTML="";
     itemContain.addEventListener("mouseleave",menu_item2_mouseleave);
-    //当前学科
-    var proj=new Category();
-    proj.contain = new Array();
-    for(var i = 0; i < cate.length; i++){
-        //去空格
-        var v1 = cate[i].name.replace(/^\s+|\s+$/g, '');
-        var v2 = this.innerText.replace(/^\s+|\s+$/g, '');
-        if(v1 == v2){
-            proj=cate[i];
-            break;
-        }
-    }
+
     //学科->所有年级
-    var rankcnt = proj.contain.length;
+    var rankcnt = proj.length;
     for(var i=0; i < rankcnt; i++){
         var item=document.createElement("div");
         //弹出菜单上边距依附当前对象
         item.id="detailItem";
         var ofy = this.offsetTop;
         itemContain.style.top=ofy;
-        item.innerText=proj.contain[i];
+        item.innerText=proj[i];
+        item.addEventListener('click',menu_item_ext_click);
         itemContain.appendChild(item);
-    }
-    if(rankcnt == 0){
-        alert("不支持edge");
-    }
-  
-   
-}
-//中部，创建导航菜单
-function createMenu(_this,func){
- 
-    var menu=document.getElementById("expandMenu");
-    menu.innerHTML="";
-    var arrItem=new Array();
-    if(_this.innerText == "学科分类"){
-           arrItem=cate;
-    }
-    var len=arrItem.length;
-    for(i=0;i<len;i++){
-    var menu_item=document.createElement("ul");
-    menu_item.id="menuItem";
-    menu_item.innerText=cate[i].name;
-   menu_item.addEventListener('mouseenter',menu_item_enter);
-   menu_item.addEventListener('mouseleave',menu_item_mouseleave)
-    var menu_item_line=document.createElement("label");
-    menu_item_line.className="separate";
-    menu_item.appendChild(menu_item_line);
-    menu.appendChild(menu_item);
-    }
+    }  
 }

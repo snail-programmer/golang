@@ -108,6 +108,7 @@ func RPC_SERVER_REGIST() {
 	myhandler.handler["/login"] = login
 	myhandler.handler["/regist"] = regist
 	myhandler.handler["/logout"] = logout
+	myhandler.handler["/deleteAccount"] = deleteAccount
 	myhandler.handler["/perfectPersonInfo"] = perfectPersonInfo
 	myhandler.handler["/getMyUser"] = getMyUser
 	myhandler.handler["/categorylist"] = CategoryList
@@ -125,7 +126,7 @@ func RPC_SERVER_REGIST() {
 	myhandler.handler["/getCollectState"] = getCollectState
 	myhandler.handler["/getCollectNotes"] = getCollectNotes
 	myhandler.handler["/GiveGratuity"] = GiveGratuity
-	//myhandler.handler["/resouce_search"]=resouce_search
+
 	//上传
 	myhandler.handler["/upload"] = upload
 	myhandler.handler["/save_draft"] = save_draft
@@ -142,11 +143,7 @@ func RPC_SERVER_REGIST() {
 	}
 }
 
-func what(curNum string) {
-
-}
 func main() {
 	RPC_SERVER_REGIST()
-	//what("")
 
 }

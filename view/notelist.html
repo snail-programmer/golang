@@ -13,8 +13,7 @@
         <script src="./script/bootstrap.min.js"></script>
         <script src="./script/wow.js"></script>
         <!-- 动态笔记;网络请求;身份验证 -->
-        <script src="script/category.js"></script>
-        <script src="script/ajax_request.js"></script>
+         <script src="script/ajax_request.js"></script>
         <script src="script/dynamic_notelist.js"></script>
         <script src="script/check_identify.js"></script>
         <script src="script/warning.js"></script>
@@ -27,32 +26,43 @@
             var load=document.getElementById("loading");
             load.style.display="none";
         }
+        function errorTip(title){
+            var load = document.getElementById("loading");
+                load.style.display="block";
+                var info = document.createElement("label");
+                info.innerText =title;
+                info.style.marginTop="10px";
+                load.innerHTML="";
+                load.appendChild(info);
+        }
         //ajax请求回调
         function ajax_callback(arr){
-            //dynamic_notelist 创建指定数量笔记列表
-            //创建列表项并为每个列表项赋值
-            if (new_curNum == 0 && (typeof arr).toString() == "object"){
-                if(arr.code == "400" || arr.code == "200"){
-                    if(arr.code == "200"){
-                        show_warn("警告",arr.msg);
-                        arr.msg="查询失败!";
-                    }
-                    if(new_curNum>0){
-                        arr.msg="再没有东西了 ︿(￣︶￣) "
-                    }
-                    var tip = document.getElementById("loading");
-                    var info = document.createElement("label");
-                    info.innerText = arr.msg;
-                    info.style.marginTop="10px";
-                    tip.innerHTML="";
-                    tip.appendChild(info);
-                    return;
-                } 
-            }
-            setData(arr);
-            hideLoading();  
-            new_curNum = document.getElementsByClassName("item").length;
+        //dynamic_notelist 创建指定数量笔记列表
+        //创建列表项并为每个列表项赋值
+  
+        if ((typeof arr).toString() == "object"){
+            if(arr.code=="410" || arr.code == "400" || arr.code == "200"){
+                if(arr.code == "200"){
+                    show_warn("警告",arr.msg);
+                    arr.msg="查询失败!";
+                }
+                if(arr.code == "410"){
+                    show_warn("提示",arr.msg,function(){
+                        document.location="login.html";
+                    });
+                }
+               if(new_curNum>0){
+                   arr.msg="再没有东西了 ︿(￣︶￣) "
+               }
+               errorTip(arr.msg);
+                return;
+            } 
+            hideLoading();
         }
+        setData(arr);
+        new_curNum = document.getElementsByClassName("item").length;
+       //
+    }
    
 
         /*
@@ -68,7 +78,13 @@
             //加载中
             showLoading();
             route+="?curNum="+new_curNum+"&sortType="+sortType;
-            var keyword = document.getElementById("search").value;
+            var brand1 = document.getElementById("note-brand-1");
+            var brand2 = document.getElementById("note-brand-2");
+            var keyword = brand1?brand1.innerText:"";
+            keyword += brand2?brand2.innerText:"";
+            if(keyword == ""){
+              keyword = document.getElementById("search").value;
+            } 
             if(keyword.length > 0){
                 route+="&keyword="+keyword;
             }
@@ -93,17 +109,24 @@
         function resouce_search(){
             old_curNum=-1;
             new_curNum =0;
+            bainfo.brand1=bainfo.brand2="";
+            document.getElementById("note-tools").innerHTML="";
+            var del = document.getElementsByClassName("brand-del").item(0);
+            if(del)
+                del.remove();
             var notelist = document.getElementById("note_list_item");
             notelist.innerHTML = "";
             request_route_notelist('/queryPartNote',ajax_callback);
         }
         function init_notelist(){
+            var sel = document.getElementById("sort_type");
+            sel[0].selected=true;
+            request_route('/categorylist',getnetmenu);
             old_curNum=-1;
             new_curNum =0;
             var notes = document.getElementById("note_list_item");
             notes.innerHTML="";
             var se = document.getElementById("search");
-            
             se.value="";
             request_route_notelist('/queryPartNote',ajax_callback,'sortTime');
         }
@@ -119,7 +142,7 @@
     <body onload="init_notelist()">
         <div id="topBack">
             <img class="logo" src="./image/logo.png"/>
-            <h1 onclick="request_route('/categorylist',category_callback)">云笔记</h1>
+            <h1 onclick="request_route('/categorylist',getnetmenu)">云笔记</h1>
             <input type="button" id="btnStyle" value="注册/登录" onclick="loginClick()"/>
      
         <div id="note-search">
@@ -142,7 +165,7 @@
                    </ul>
                  </div>
                 <!-- nickName -->
-                <p id="nickname">我叫MT</p>
+                <p id="nickname"></p>
             </div>
 
         </div>
@@ -168,20 +191,7 @@
                     old_curNum = -1;
                     new_curNum = 0;
                     var sortType = $("#sort_type option:selected").val();
-                    if(sortType == "recommend"){
-                        request_route('/getMyUser',function(e){
-                            if (e == "未登录呢"){
-                                show_warn("警告","使用该功能请先登录",function(){
-                                    document.location="login.html";
-                                });
-                            return;
-                            }else{
-                                request_route_notelist('/queryPartNote',ajax_callback,sortType);
-                            }
-                        });
-                    }else{
-                        request_route_notelist('/queryPartNote',ajax_callback,sortType);
-                    }
+                    request_route_notelist('/queryPartNote',ajax_callback,sortType);
                 });
             });
         
@@ -191,8 +201,8 @@
         <div id="notecategory">
             <div id="brand">
                 <ul id="singItem">学科分类</ul>
-                <ul id="singItem">状元笔记</ul>
-                <ul id="singItem">学术专题</ul>
+                <ul id="singItem">考题试卷</ul>
+                <ul id="singItem">其他综合</ul>
             </div>
             <div id="expandMenu"> 
                 <!-- <ul id="menuItem">
@@ -215,15 +225,20 @@
 
     <div id="note_list">
 
-        <div style=" display: flex;justify-content:start;padding-left: 20px;">
-            <label class="note-library" onclick="init_notelist()">笔记库</label>
+        <div id="note-nav" style=" display: flex;justify-content:start;padding-left: 20px;margin: 0px;">
+            <label class="note-library">笔记库</label>
             <select id="sort_type">
             <option value="sortTime">按发布时间排列</option>
             <option value="hotNote">按笔记热度排列</option>
             <option value="recommend">个性化推荐</option>
             </select>
+            <!-- 面包屑导航 -->
+            <div id="note-tools" style="margin:0px;">
+                <!-- <label class="note-brand">当前分类</label> -->
+            </div>
+              <!-- <label class="brand-del">×</label>  -->
         </div>
-        <!-- 动态创建笔记列表 -->
+         <!-- 动态创建笔记列表  -->
         <div id="note_list_item">
 
         </div>

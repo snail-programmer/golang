@@ -68,6 +68,9 @@ function personal_notelist(arr){
     }
 
     for(var i=0;i< notelist.length; i++){
+        if(!catelist[i]){
+            continue;
+        }
         var CategoryName = catelist[i]["CategoryName"];  //科目分类
         var CategoryContain =catelist[i]["CategoryContain"];//科目细分
         //过滤显示科目，

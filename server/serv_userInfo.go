@@ -70,6 +70,9 @@ func GetAuthorNote(w http.ResponseWriter, r *http.Request) {
 	DBCenter.DbgetAllModel(&note, &notelist)
 	//得到所有笔记的对应类型
 	for _, e := range notelist {
+		if e == nil {
+			continue
+		}
 		cate := DBModel.Category{}
 		cate.Id = e.(DBModel.Article).CategoryId
 		DBCenter.DbgetWithOneModel(&cate)
@@ -78,6 +81,19 @@ func GetAuthorNote(w http.ResponseWriter, r *http.Request) {
 	//[ user  notelist<>catelist ]
 	var final = []interface{}{user, notelist, catelist}
 	w.Write(GenericPackJson(final))
+}
+func getUserMoney(user *DBModel.User) {
+	//得到用户笔记浏览量和收藏量
+	v_s, c_s := getAuthorFlow(user.Id)
+	user.View_sum = Utils.IntToString(v_s)
+	user.Col_sum = Utils.IntToString(c_s)
+	user.Flow = Utils.IntToString(v_s + c_s)
+	//固定价值两元的100金币不可取出，防止重复销户注册套现
+	var money = Utils.StringToFloat(Utils.AddNumString(user.Coin, user.Flow))/50 - 2.0
+	if money < 0 {
+		money = 0.00
+	}
+	user.Money = Utils.Float64ToString(money)
 }
 func getMyUser(w http.ResponseWriter, r *http.Request) {
 
@@ -93,13 +109,7 @@ func getMyUser(w http.ResponseWriter, r *http.Request) {
 		w.Write(GenericPackJson("用户不存在!"))
 		return
 	}
-	//得到用户笔记浏览量和收藏量
-	v_s, c_s := getAuthorFlow(userId)
-	user.View_sum = Utils.IntToString(v_s)
-	user.Col_sum = Utils.IntToString(c_s)
-	user.Flow = Utils.IntToString(v_s + c_s)
-	var money = Utils.StringToFloat(Utils.AddNumString(user.Coin, user.Flow)) / 50
-	user.Money = Utils.Float64ToString(money)
+	getUserMoney(&user)
 	w.Write(GenericPackJson(user))
 }
 
@@ -119,7 +129,8 @@ func GiveGratuity(w http.ResponseWriter, r *http.Request) {
 	coin := r.Form.Get("coin")
 	coinNum := Utils.StringToInt(coin)
 	if coinNum < 1 || coinNum > 10 {
-		coin = "2"
+		PackMsgAndSend("400", "失败，请打赏规定范围内的金币数量!", w)
+		return
 	}
 	//查询当前用户信息
 	user := DBModel.User{Id: userId}

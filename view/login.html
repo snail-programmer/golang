@@ -6,7 +6,7 @@
     border:1px;
     border-radius:20px;
     width:500px;
-    height:300px;
+    height:320px;
     position: absolute;
     top:50px;
     text-align:center;
@@ -38,8 +38,8 @@
         border-width:2px;
         padding:2px;color:white;
         position: absolute;
-        top:100px;
-        left:40px;
+        top:95px;
+        left:50px;
         color: black;
     }   
    
@@ -54,12 +54,12 @@
                 margin-left: 10px;
                 outline: none;
             }
-            #loginBtn,#registBtn{
+            #loginBtn{
                 outline:none;
-               margin-top: 200px;
+               margin-top: 180px;
                margin-right: 20px;
                margin-left: 20px;
-                width:100px;
+                width:140px;
                 height:40px;
                 border:1px solid gray;
                 border-radius:30px;
@@ -68,8 +68,24 @@
             }
            
 </style>
+<script src="./script/tools.js"></script>
+<script src="./script/show_mask.js"></script>
+<script> 
+    function loginReady(){
+        var state = getQueryVariable("state");
+        var phone = getQueryVariable("phone");
+        if(state){
+            state = decodeURI(state);
+            show_maskTime(state,1000);
+        }
+        if(phone){
+            var ipt =document.getElementsByName("phone").item(0);
+            ipt.value = phone;
+        }
+    }
+</script>
 </head>
-<body>
+<body onload="loginReady()">
 <div class="back">
     <div class="topline">
         <label >学霸笔记 - 登录/注册</label>
@@ -84,14 +100,14 @@
         </script>
         <table class="class1">
             <tr>
-                <td>手机号: <input id="inputBox"  name="username"  /></td>
+                <td>手机号: <input id="inputBox"  name="phone" /></td>
             <tr style="height: 20px;"></tr>
-                <td>验证码: <input  id="inputBox" name="password" /></td>
-            </tr>
+                <td>密 码： <input  id="inputBox" name="password" /></td>
+            </tr> 
             <tr>
-                <button id="loginBtn" type="submit" style="left: 20%;" onclick="loginRegist('/login')">登录</button>
-                <button id="loginBtn" type="submit" style="right: 20%;" onclick="loginRegist('/regist')">注册</button>
-            </tr>
+                <button id="loginBtn" type="submit" style="left: 20%;" onclick="loginRegist('/login')">登 录</button>
+                <p style="font-size:14px;">没有账户?立即<a href="regist.html">注册</a></p>
+             </tr>
          </table>
     </form>
 

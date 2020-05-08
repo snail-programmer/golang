@@ -1,11 +1,40 @@
 package DBCenter
 
 import (
+	"fmt"
 	"reflect"
+	"strings"
 	"unsafe"
 
 	Utils "../Utils"
 )
+
+func AutoLoadsql(model interface{}, vague int) (sql string) {
+	tp := reflect.TypeOf(model)
+	value := reflect.ValueOf(model)
+	if tp.Kind() == reflect.Ptr {
+		tp = tp.Elem()
+		value = value.Elem()
+	}
+	valid := false
+	for i := 0; i < value.NumField(); i++ {
+		if !reflect.Value.IsZero(value.Field(i)) {
+			if !valid {
+				valid = true
+			}
+			if vague > 0 {
+				sql += tp.Field(i).Name + " like '%" + Utils.ManyTypeToString((value.Field(i))) + "%' and "
+			} else {
+				sql += tp.Field(i).Name + " = '" + Utils.ManyTypeToString((value.Field(i))) + "' and "
+			}
+		}
+	}
+	//移除and
+	if valid {
+		sql = sql[0 : len(sql)-5]
+	}
+	return sql
+}
 
 //根据条件获取主键列表
 func DbgetIdentify(model interface{}, vague int) []string {
@@ -16,29 +45,33 @@ func DbgetIdentify(model interface{}, vague int) []string {
 	sql := "select "
 	for i := 0; i < value.NumField(); i++ {
 		v := Utils.ManyTypeToString(value.Field(i))
-		if v == "identify" {
+		if v == "identify" || v == "distinct" {
 			value.Field(i).SetString("")
 			cnt = DbgetCount(model)
-			if vague == 2 {
+			if vague == 2 || cnt == 0 {
 				cnt = DbgetVagueCount(model)
 			}
 			id = tp.Field(i).Name
-			sql += id + " from " + tp.Name() + " where "
-		} else if !reflect.Value.IsZero(value.Field(i)) {
-			if vague > 0 {
-				sql += tp.Field(i).Name + " like '%" + Utils.ManyTypeToString((value.Field(i))) + "%'"
-			} else {
-				sql += tp.Field(i).Name + " = '" + Utils.ManyTypeToString((value.Field(i))) + "'"
+			if v == "distinct" {
+				sql += " distinct "
 			}
-			break
-		}
+			sql += id + " from " + tp.Name() + " where "
 
+		}
 	}
-	//fmt.Println(sql, cnt)
+	loadsql := AutoLoadsql(model, vague)
+	if loadsql == "" {
+		loadsql = " 1"
+	}
+	sql += loadsql
+	fmt.Println(sql, cnt)
 	var store = make([]interface{}, cnt)
 	var ret = make([]string, 0)
 	DbgetWithSql(sql, cnt, 0, model, store)
 	for i := 0; i < len(store); i++ {
+		if store[i] == nil {
+			continue
+		}
 		v := reflect.ValueOf(store[i])
 		ret = append(ret, v.FieldByName(id).String())
 	}
@@ -46,17 +79,10 @@ func DbgetIdentify(model interface{}, vague int) []string {
 }
 func DbgetSumWithModel(model interface{}, fieldName string, groupByName string) int {
 	tp := reflect.TypeOf(model)
-	value := reflect.ValueOf(model)
-	sql := "select sum(" + fieldName + ") from " + tp.Name()
-	for i := 0; i < value.NumField(); i++ {
-		if !reflect.Value.IsZero(value.Field(i)) {
-			sql += " where " + tp.Field(i).Name + "='" +
-				Utils.ManyTypeToString((value.Field(i))) + "'"
-			break
-		}
-	}
+	//value := reflect.ValueOf(model)
+	sql := "select sum(" + fieldName + ") from " + tp.Name() + " where "
+	sql += AutoLoadsql(model, 0)
 	sql += " group by " + groupByName
-	//fmt.Println(sql)
 	sum := DbgetCountWithSql(sql)
 	return sum
 
@@ -76,19 +102,14 @@ func DbgetCountWithSql(sql string) (cnt int) {
 func DbgetVagueCount(model interface{}) (cnt int) {
 	tType := reflect.TypeOf(model).Elem()
 	sql := "select count(*) count from " + tType.Name() + " where "
-	tValue := reflect.ValueOf(model).Elem()
 	hasCondition := false
-	for i := 0; i < tValue.NumField(); i++ {
-		if tValue.Field(i).String() != "" {
-			sql += tType.Field(i).Name + " like '%" + tValue.Field(i).String()
-			sql += "%' and "
-			hasCondition = true
-		}
+	loadsql := AutoLoadsql(model, 1)
+	if len(loadsql) > 0 {
+		hasCondition = true
 	}
+	sql += loadsql
 	//增加了条件判断去掉最后的and,否则去掉where
-	if hasCondition {
-		sql = sql[0 : len(sql)-5]
-	} else {
+	if !hasCondition {
 		sql = sql[0 : len(sql)-7]
 	}
 	row, _ := db.Query(sql)
@@ -103,19 +124,14 @@ func DbgetVagueCount(model interface{}) (cnt int) {
 func DbgetCount(model interface{}) (cnt int) {
 	tType := reflect.TypeOf(model).Elem()
 	sql := "select count(*) count from " + tType.Name() + " where "
-	tValue := reflect.ValueOf(model).Elem()
 	hasCondition := false
-	for i := 0; i < tValue.NumField(); i++ {
-		if tValue.Field(i).String() != "" {
-			sql += tType.Field(i).Name + " = '" + tValue.Field(i).String()
-			sql += "' and "
-			hasCondition = true
-		}
+	loadsql := AutoLoadsql(model, 1)
+	if len(loadsql) > 0 {
+		hasCondition = true
 	}
-	//增加了条件判断去掉最后的and,否则去掉where
-	if hasCondition {
-		sql = sql[0 : len(sql)-5]
-	} else {
+	sql += loadsql
+	//去掉where
+	if !hasCondition {
 		sql = sql[0 : len(sql)-7]
 	}
 	row, _ := db.Query(sql)
@@ -184,33 +200,34 @@ func DbgetWithSql(sql string, rCount int, rOffset int, model interface{}, store 
 func DbgetWithModel(structModel interface{}, store interface{}, rOffset int, vsort string) {
 	stName := reflect.TypeOf(structModel).Elem()
 	fields := reflect.ValueOf(structModel).Elem()
+	distinct := false
 	var sql string = "select * from " + stName.Name() + " where "
 	var isCondition = false
+	loadsql := AutoLoadsql(structModel, 0)
+	sql += loadsql
+	if loadsql != "" {
+		isCondition = true
+	}
 	for i := 0; i < fields.NumField(); i++ {
 		kType := stName.Field(i).Type.String()
-		kName := stName.Field(i).Name
-		vValue := ""
 		switch kType {
 		case "int":
-			intD := int(fields.Field(i).Int())
-			vValue = Utils.IntToString(intD)
 			fields.Field(i).SetInt(0)
 		case "string":
-			vValue = fields.Field(i).String()
+			if fields.Field(i).String() == "distinct" {
+				distinct = true
+			}
 			fields.Field(i).SetString("")
 		}
-		if vValue != "" {
-			isCondition = true
-			sql += Utils.FirstTolower(kName) + " = '" + vValue + "' and "
-		}
+	}
+	if distinct {
+		sql = strings.Replace(sql, "*", "distinct *", 1)
 	}
 	/*
 		有搜索条件:去掉多余的" and ";
 		没有搜索条件:去掉多余的 " where "
 	*/
-	if isCondition {
-		sql = sql[0 : len(sql)-5]
-	} else {
+	if !isCondition {
 		sql = sql[0 : len(sql)-7]
 	}
 	if vsort != "" {

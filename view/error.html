@@ -11,7 +11,7 @@
                 position: absolute;
                 top: 0;
                 background-color: rgb(214, 195, 195);
-                height: 40%;
+                height: 70%;
                 width: 100%; 
              }
     
@@ -24,13 +24,13 @@
         }
     </script>
     <body >
-         <div class="_mask_content mask_extend" >
+         <div class="_mask_content mask_extend" style="height: 260px;" >
             <div class="mask_warn">
                 <img src="image/warn_ico_title.png" 
-                style="position: absolute;left: 20;top:40px;width: 40px;height: 40px;"/>
+                style="position: absolute;left: 50px;top:42%;width: 40px;height: 40px;"/>
+                <label style="position: absolute;top:44%;left:140px; font-size: 24px;">{{.error}}</label>
             </div>
-             <p style="margin-top: -30px;font-size: 24px;">{{.error}}</p>
-        <button onclick='jump("{{.jumpUrl}}")' id="btnStyle" class="btnExtern" style=" margin-top:240px;  color: rgb(95, 93, 93);">我知道了</button>
+        <button onclick='jump("{{.jumpUrl}}")' id="btnStyle" class="btnExtern" style=" margin-top:200px;  color: rgb(95, 93, 93);">我知道了</button>
          </div>
     </body>
 </html>

@@ -11,12 +11,17 @@ import (
 	"../safeHandler"
 )
 
-//获取所有分类
+//获取所有分类categoryName:[categoryContain...]
 func CategoryList(w http.ResponseWriter, r *http.Request) {
-	var t []interface{}
-	cate := DBModel.Category{}
-	DBCenter.DbgetAllModel(&cate, &t)
-	w.Write(GenericPackJson(t))
+	cate_rs := make(map[string][]string)
+	cate := DBModel.Category{CategoryName: "distinct"}
+	catename := DBCenter.DbgetIdentify(&cate, 0)
+	for _, v := range catename {
+		cate = DBModel.Category{CategoryName: v, CategoryContain: "identify"}
+		catecontain := DBCenter.DbgetIdentify(&cate, 0)
+		cate_rs[v] = catecontain
+	}
+	w.Write(GenericPackJson(cate_rs))
 }
 
 /*
@@ -62,8 +67,8 @@ func queryPartNote(w http.ResponseWriter, r *http.Request) {
 		//推荐算法查询笔记-需登录
 		userId := safeHandler.GetCurrentUserId(w, r)
 		if userId == "" {
-			jsonStr := GenericPackJson("未登录呢")
-			w.Write(jsonStr)
+			//jsonStr := GenericPackJson("未登录呢")
+			PackMsgAndSend("410", "使用该功能请先登录(ง •_•)ง ", w)
 			return
 		}
 		//个性推荐查询笔记

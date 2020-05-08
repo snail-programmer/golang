@@ -69,6 +69,11 @@
                             frm.style.visibility="hidden";
                             show_warn("警告","所有账号数据将被删除,是否继续?",function(){
                                 //delete all user data
+                                request_route("/deleteAccount",function(e){
+                                    show_warn("提示",e.msg,"",function(){
+                                        window.top.document.location="/main.html";
+                                     });  
+                                 });
                             });
                             break;
                     }

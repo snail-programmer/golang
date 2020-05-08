@@ -44,7 +44,6 @@
 }
 .myinfo  .tophead{
     width: 90%;
-    background-color: cyan;
     height: 100px;
     margin-top: 60px;
     margin-left: 5%;
@@ -62,16 +61,9 @@
     width: 170px;
     height: 100%;
     font-size: 15;
-    background-color: pink;
     display:flex;
     flex-direction: column;
-    cursor: pointer;
- }
-
- .dc:hover{
-      font-size: 20;
-      color: rgb(155, 86, 219);
-
+     /* border: 1px solid #4e454a; */
  }
 
  .dc p{

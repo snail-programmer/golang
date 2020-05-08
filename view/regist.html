@@ -1,0 +1,110 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<style type="text/css">
+    .back{
+    border:1px;
+    border-radius:20px;
+    width:500px;
+    height:300px;
+    position: absolute;
+    top:50px;
+    height: 400px;
+    text-align:center;
+    margin-left:30%;
+    box-shadow: 0px 1px 6px rgb(155, 153, 153);
+    background-color: white;
+    }
+    .back .topline{
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: 100%;
+        height:40px;
+        position: absolte;
+        left: 0;
+        top: 0;
+     
+         background-color: rgb(110, 110, 196);
+    }
+    .topline >label{
+        position: absolute; 
+        color: white;
+        left: 14;
+        top:7px;
+    }
+    .class1{
+        font-size:15px;
+        position: absolute;
+        top:70px;
+        left:20px;
+        height: 200px;
+        color: black;
+    }   
+    .label_p{
+        display: inline-block;
+        width: 100px;
+        text-align: right;
+    }
+   
+            #inputBox{
+                border-radius: 10px;
+                background:none;
+                color: black;
+                width:300px;
+                height:30px; 
+                border:1px solid rgb(153, 150, 150);
+                font-size:17px;
+                margin-left: 10px;
+                outline: none;
+            }
+            #registBtn{
+                outline:none;
+                margin-top: 260px;
+                margin-right: 20px;
+                margin-left: 20px;
+                width:170px;
+                height:34px;
+                border:1px solid gray;
+                border-radius:30px;
+                background:none;
+                cursor: pointer;
+            }
+           
+</style>
+</head>
+<body>
+<div class="back">
+    <div class="topline">
+        <label >学霸笔记 - 登录/注册</label>
+    </div>
+    <form  method="POST" >
+        <script>
+            function loginRegist(method){
+                method = "http://localhost:9000"+method;
+                
+                document.getElementsByTagName("form").item(0).action=method;
+            }
+        </script>
+        <table class="class1">
+            <tr>
+                <td><label class="label_p">手机号:</label><input maxlength="11" id="inputBox"  name="phone"/></td>
+             <tr style="height: 20px;"></tr>
+                <td><label class="label_p">验证码:</label><input maxlength="6" id="inputBox" name="verifycode" /></td>
+                <tr style="height: 20px;"></tr>
+                <td><label class="label_p">指定密码:</label><input maxlength="10"  id="inputBox" name="password" /></td>
+                <tr style="height: 20px;"></tr>
+                <td><label class="label_p">再次确认:</label><input maxlength="10"  id="inputBox" name="retry_password" /></td>
+
+            </tr>
+            <tr>
+            <button id="registBtn" type="submit" style="right: 20%;" onclick="loginRegist('/regist')">立即注册</button>
+            <p style="font-size:14px;">已有账户?<a href="login.html">登录</a></p>
+            </tr>
+
+         </table>
+    </form>
+
+</div>
+
+</body>
+</html>

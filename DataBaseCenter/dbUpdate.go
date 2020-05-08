@@ -9,29 +9,18 @@ import (
 
 func DeleteData(sctObj interface{}) bool {
 	table := reflect.TypeOf(sctObj)
-	store := Utils.MapOfModel(sctObj)
-
 	sql := "delete from " + table.Name() + " where "
-	hasValue := false
-	for k, v := range store {
-		vs := Utils.AnyTypeToString(v)
-		if vs == "" {
-			continue
-		}
-		hasValue = true
-		sql += (k + " = '" + vs + "' and ")
-	}
-	if !hasValue {
+	loadsql := AutoLoadsql(sctObj, 0)
+	if loadsql == "" {
 		return false
 	}
-	sql = sql[0 : len(sql)-5]
-	result, err := db.Exec(sql)
-	row, _ := result.RowsAffected()
-	if err != nil {
-		fmt.Println("错误======!", row, err, "==========!")
-		return false
-	}
+	sql += loadsql
+	_, err := db.Exec(sql)
 	fmt.Println(sql)
+	if err != nil {
+		fmt.Println("错误======!", err, "==========!")
+		return false
+	}
 	return true
 }
 func UpdateTable(sctObj interface{}) bool {
@@ -63,10 +52,9 @@ func UpdateTable(sctObj interface{}) bool {
 	sql = sql[0 : len(sql)-1]
 	sql += " where " + id + " = '" + Utils.AnyTypeToString(id_value) + "'"
 
-	result, err := db.Exec(sql)
-
-	fmt.Println(result, err)
+	_, err := db.Exec(sql)
 	if err != nil {
+		fmt.Println("更新错误==========:", err)
 		return false
 	}
 	fmt.Println(sql)

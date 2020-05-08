@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -110,18 +111,8 @@ func PackMsg(code string, msg string) map[string]interface{} {
 func PackMsgAndSend(code string, msg string, w http.ResponseWriter) {
 	w.Write(GenericPackJson(PackMsg(code, msg)))
 }
-
-// func RecommendAlgorithm(w http.ResponseWriter, r *http.Request) {
-// 	r.ParseForm()
-// 	userId := safeHandler.GetCurrentUserId(w, r)
-// 	if userId == "" {
-// 		jsonStr := GenericPackJson("请先登录")
-// 		w.Write(jsonStr)
-// 		return
-// 	}
-// 	//查询访问日志记录,获取当前用户产生的<=10条记录
-// 	viLog := DBModel.Visit_log{VisitId: userId}
-// 	viLogs := make([]interface{}, 10)
-// 	DBCenter.DbgetWithModel(&viLog, viLogs, 0, "")
-// 	fmt.Println(viLogs)
-// }
+func JumpErrorPage(w http.ResponseWriter, error string, jumpUrl string) {
+	e := map[string]string{"error": error, "jumpUrl": jumpUrl}
+	t, _ := template.ParseFiles("../view/error.html")
+	t.Execute(w, e)
+}
