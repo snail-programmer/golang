@@ -26,20 +26,17 @@ func xhedit_saveNote(w http.ResponseWriter, r *http.Request) {
 
 	cate := DBModel.Category{CategoryName: article.CategoryName, CategoryContain: article.CategoryContain}
 	DBCenter.DbgetWithOneModel(&cate)
-	if cate.Id == "" {
-		cate.Id = "0"
-	}
 
 	article.AuthorId = userId
 	article.CategoryId = cate.Id
-	// fmt.Println("article:", article)
 	article.CategoryName = ""
 	article.CategoryContain = ""
 	res := false
 	if article.ArticleId == "" {
 		res = DBCenter.InsertTable(article)
 	} else {
-		//重新发布笔记-更新不成功?
+		//重新发布笔记-时间不变
+		article.CreateTime = ""
 		res = DBCenter.UpdateTable(article)
 	}
 

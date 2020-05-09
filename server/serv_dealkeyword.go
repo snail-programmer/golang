@@ -18,7 +18,7 @@ func (kw *dealKeyWord) initWordLibs() {
 		fmt.Println("retry")
 		return
 	}
-	file, err := os.Open("d:/bitch.txt")
+	file, err := os.Open("../view/config/vague_match.ini")
 	if err != nil {
 		fmt.Println("read file fail", err)
 		return
@@ -87,9 +87,11 @@ func (kw *dealKeyWord) dynamicDiscardWord(queryword string, callback notify) {
 	keylen := len(queryword)
 	//动态拆词,重查
 	for i := 0; i < keylen; i++ {
-		//关键字每keylen-i个字符为一组分解数组
+		//关键字每keylen-i个字符为一组分解数组，为1返回
+		if keylen-i <= 1 {
+			return
+		}
 		retryarr := kw.cvtArrWithSepNum(queryword, keylen-i)
-		fmt.Println(retryarr)
 		//调用回调,返回搜索成功的数量
 		effect_n := callback(retryarr)
 		if effect_n > 0 { // && i >= (keylen-1)/2

@@ -170,9 +170,17 @@ func (re *ReSrh) analysisKeyWord(keyword string) []string {
 	fmt.Println("nsid.note2", re.nsid.note2)
 
 	fmt.Println("nsid.note3", re.nsid.note3)
+
+	//如果存在有效的分类但没有查找到分类对应的笔记，并且关键字有剩余搜索值，应该返回空
+	if re.queryedword != "" && len(re.nsid.note1) == 0 && len(re.nsid.note3) == 0 {
+		if len(queryword) > len(re.queryedword) {
+			re.nsid.note2 = []string{}
+		}
+
+	}
 	//取 nsid 交集
 	//var capture []string
-	capture := intersect(re.nsid.note1, re.nsid.note2, re.nsid.note3)
+	capture := re.intersect(re.nsid.note1, re.nsid.note2, re.nsid.note3)
 	if len(capture) == 0 {
 		return capture
 	}
@@ -193,26 +201,8 @@ func (re *ReSrh) analysisKeyWord(keyword string) []string {
 	return capture
 }
 
-func resouce_search(keyword string, curNum string, sortType string, store []interface{}) {
-	//初始化存储分析容器
-	re := ReSrh{nsid: NotesId{}, cateinfo: CateInfo{}, personinfo: PersonInfo{}, sortType: sortType}
-	//对关键字数组分析result[noteid]
-	noteids := re.analysisKeyWord(keyword)
-	fmt.Println("noteids:", noteids)
-
-	crnum := Utils.StringToInt(curNum)
-	for i := crnum; i < crnum+6; i++ {
-		if i >= len(noteids) {
-			break
-		}
-		note := DBModel.Article{ArticleId: noteids[i]}
-		DBCenter.DbgetWithOneModel(&note)
-		store[i-crnum] = note
-	}
-}
-
 //取所有数组交集
-func intersect(arrs ...[]string) []string {
+func (re *ReSrh) intersect(arrs ...[]string) []string {
 	var store = map[string]int{}
 	var ret []string
 	var topcnt = 0
@@ -250,4 +240,21 @@ func intersect(arrs ...[]string) []string {
 		}
 	}
 	return ret
+}
+func resouce_search(keyword string, curNum string, sortType string, store []interface{}) {
+	//初始化存储分析容器
+	re := ReSrh{nsid: NotesId{}, cateinfo: CateInfo{}, personinfo: PersonInfo{}, sortType: sortType}
+	//对关键字数组分析result[noteid]
+	noteids := re.analysisKeyWord(keyword)
+	fmt.Println("noteids:", noteids)
+
+	crnum := Utils.StringToInt(curNum)
+	for i := crnum; i < crnum+6; i++ {
+		if i >= len(noteids) {
+			break
+		}
+		note := DBModel.Article{ArticleId: noteids[i]}
+		DBCenter.DbgetWithOneModel(&note)
+		store[i-crnum] = note
+	}
 }

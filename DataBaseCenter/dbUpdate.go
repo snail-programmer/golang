@@ -57,7 +57,7 @@ func UpdateTable(sctObj interface{}) bool {
 		fmt.Println("更新错误==========:", err)
 		return false
 	}
-	fmt.Println(sql)
+	//fmt.Println(sql)
 	return true
 }
 func InsertTable(sctObj interface{}) bool {
@@ -85,7 +85,7 @@ func InsertTable(sctObj interface{}) bool {
 	if err != nil {
 		return false
 	}
-	fmt.Println(sql)
+	//	fmt.Println(sql)
 
 	return true
 }

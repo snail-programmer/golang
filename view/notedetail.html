@@ -52,6 +52,7 @@
   
             .note_content p{
                 width: 100%;
+                max-width: 770px;
             }
             .note_content img{
                 max-width: 20cm;
@@ -107,7 +108,7 @@
             function init_detailPage(){
                 var catename = getQueryVariable("catename");
                 var title = document.getElementsByClassName("catename-title").item(0);
-                catename=decodeURI(catename);
+                catename=decodeURI(decodeURI(catename));
                 title.innerText = catename;
                 //查询笔记收藏状态
                 send_data("/getCollectState",function(e){

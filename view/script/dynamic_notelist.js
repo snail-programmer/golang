@@ -80,9 +80,10 @@ function setData(arr){
     function viewNote(){
         var dom = this.parentNode;
         var noteid = dom.getElementsByClassName("ArticleId").item(0).innerHTML;
-        var catename = dom.getElementsByClassName("catedetail").item(0).innerHTML;
+        var catename = dom.getElementsByClassName("catedetail").item(0).innerText;
+         var ec = encodeURI(catename);
         var url="/notedetail.html?ArticleId="+noteid+
-        "&ope=view_note"+"&catename="+catename;
+        "&ope=view_note"+"&catename="+encodeURI(ec);
         window.open(url,"_blank");
     }
     function viewDetail(){
@@ -138,7 +139,7 @@ function getnetmenu(arr){
    cateobj = arr;
 }
 class brandInfo{
-    //brand1,brand2
+    //brand0 brand1,brand2
 };
 var bainfo=new brandInfo();
 function create_navbrand(id,title){
@@ -175,15 +176,20 @@ function create_navbrand(id,title){
 }
 
 function vtsearch(keyword){
-    old_curNum=-1;
-    new_curNum =0;
+    //分类请求时，屏蔽鼠标滚动的网络请求事件
+    old_curNum=new_curNum=0;
     var notes = document.getElementById("note_list_item");
     notes.innerHTML="";
     var sortType = $("#sort_type option:selected").val();
     var route="/queryPartNote?curNum=0"+"&sortType="+sortType;
+    if(bainfo.brand0 == "考题试卷"){
+        bainfo.brand0 = "";
+    }
     if(keyword.length > 0){
+        keyword = keyword.replace(">","");
         route+="&keyword="+keyword;
     }
+    console.log(route);
      setTimeout(() => {
         request_route(route,ajax_callback);
     }, 500);
@@ -194,6 +200,7 @@ function menu_item_ext_click(){
     create_navbrand("note-brand-1","当前位置: "+bainfo.brand1);
     create_navbrand("note-brand-2","  > "+this.innerText);
     vtsearch(bainfo.brand1 + this.innerText);
+
 }
 //语文/数学 > 点击事件
 function menu_item_click(){
@@ -201,11 +208,14 @@ function menu_item_click(){
     if(b2){
         b2.innerHTML="";
     }
+    if(bainfo.brand0 == "考题试卷"){
+        bainfo.brand1 = bainfo.brand0 +" > "+ bainfo.brand1;
+    }
     create_navbrand("note-brand-1","当前位置: "+bainfo.brand1);
     vtsearch(bainfo.brand1);
 }
 //中部，创建导航菜单
-function createMenu(_this,func){
+function createMenu(_this){
  
     var menu=document.getElementById("expandMenu");
     menu.innerHTML="";
@@ -214,13 +224,13 @@ function createMenu(_this,func){
     arrItem=cateobj;
 
     for(var key in arrItem){
-        if(_this.innerText == "学科分类" && (key=="专题" || key=="试题")){
+        if(_this.innerText == "学科分类" && (key=="专题" || key=="文科综合" || key=="理科综合")){
             continue;
         }
         if(_this.innerText == "其他综合" && key!="专题"){
             continue;
         }
-        if(_this.innerText == "考题试卷" && key != "试题"){
+        if(_this.innerText == "考题试卷" && key == "专题"){
             continue;
         }
     var menu_item=document.createElement("ul");

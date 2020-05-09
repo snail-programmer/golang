@@ -48,6 +48,7 @@ type Category struct {
 	Id              string
 	CategoryName    string
 	CategoryContain string
+	CateType        string
 }
 type Black_list struct {
 	Id       int

@@ -75,6 +75,8 @@
             //如果两次的起始项相同，它应该拒绝再次发起请求
             if(old_curNum == new_curNum)
                 return;
+            old_curNum = new_curNum;
+            console.log("New_curNum:",new_curNum);
             //加载中
             showLoading();
             route+="?curNum="+new_curNum+"&sortType="+sortType;
@@ -82,6 +84,8 @@
             var brand2 = document.getElementById("note-brand-2");
             var keyword = brand1?brand1.innerText:"";
             keyword += brand2?brand2.innerText:"";
+            keyword = keyword.replace(">","");
+            keyword = keyword.replace("当前位置:","");
             if(keyword == ""){
               keyword = document.getElementById("search").value;
             } 
@@ -92,7 +96,6 @@
             setTimeout(() => {
                 request_route(route,callback);
             }, 500);
-            old_curNum = new_curNum;
         }
         //滚动条事件
         function scroll_listen(e){
@@ -101,6 +104,7 @@
             var c=document.body.scrollHeight;
             var sorType = $("#sort_type option:selected").val();
             if(a + b >= c){
+                console.log("scro");
                 request_route_notelist('/queryPartNote',ajax_callback,sorType);
             }
         }
@@ -128,6 +132,7 @@
             notes.innerHTML="";
             var se = document.getElementById("search");
             se.value="";
+            console.log("init");
             request_route_notelist('/queryPartNote',ajax_callback,'sortTime');
         }
         function searchkeydown() { 
@@ -171,12 +176,10 @@
         </div>
         <!-- 内容垂直分类 -->
         <script>
-            function menuClick(){
-                alert(this.innerText);
-            }
             $(document).ready(function() {
                 $("#brand").children("ul").mouseenter(function(){
-                   createMenu(this,menuClick);
+                    bainfo.brand0 = this.innerText;
+                    createMenu(this);
                 });
                 $("#brand").children("ul").mouseleave(function(){
                     menu_mouseleave();
