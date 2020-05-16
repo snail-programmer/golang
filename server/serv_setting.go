@@ -49,7 +49,15 @@ func modifyAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	newPhone := r.Form.Get("newPhone")
-	//verifyCode := r.Form.Get("verifyCode")
+	verifyCode := r.Form.Get("verifyCode")
+	if len(newPhone) < 4 {
+		w.Write([]byte("手机号不正确"))
+		return
+	}
+	if newPhone[len(newPhone)-4:len(newPhone)] != verifyCode {
+		w.Write([]byte("验证码不正确"))
+		return
+	}
 	user := DBModel.User{Id: userId, PhoneNumber: newPhone}
 	if DBCenter.UpdateTable(user) {
 		w.Write([]byte("success"))

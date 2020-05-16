@@ -88,6 +88,7 @@ func getUserMoney(user *DBModel.User) {
 	user.View_sum = Utils.IntToString(v_s)
 	user.Col_sum = Utils.IntToString(c_s)
 	user.Flow = Utils.IntToString(v_s + c_s)
+	user.Coin = Utils.AddNumString(user.Coin, user.Flow)
 	//固定价值两元的100金币不可取出，防止重复销户注册套现
 	var money = Utils.StringToFloat(Utils.AddNumString(user.Coin, user.Flow))/50 - 2.0
 	if money < 0 {

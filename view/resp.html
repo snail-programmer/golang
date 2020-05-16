@@ -2,20 +2,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <script  src="./script/readiofile.js">
-        </script>
+        <script  src="./script/readiofile.js"></script>
+        <script src="./script/web_socket.js"></script>
         <script>
+            var sock;
                 function read(){
-                var file = document.getElementsByName("readio").item(0);
+                 var file = document.getElementsByName("readio").item(0);
                 readiofile(file,function(e){
                     var doc =document.getElementById("hello");
                     doc.innerHTML=e;
                 });
             }
+            function test(){
+                sock = new SockServ();
+                console.log(sock);
+            }
         </script>
     </head>
-    <body onload="read()">
+    <body onload="test()">
         <input type="file" name="readio">
-        <div id="hello" style="width: 1000px;height: 200px;background-color: antiquewhite;"></div>
+        <button onclick="websock()">你好</button>
     </body>
 </html>

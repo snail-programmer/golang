@@ -115,6 +115,9 @@ func getCollectNotes(w http.ResponseWriter, r *http.Request) {
 	var notelist []interface{}
 	var catelist []interface{}
 	for i := 0; i < len(collects); i++ {
+		if nil == collects[i] {
+			continue
+		}
 		cole := collects[i].(DBModel.Collect_article)
 		//得到对应笔记
 		note := DBModel.Article{ArticleId: cole.ArticleId}

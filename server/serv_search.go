@@ -32,6 +32,7 @@ type ReSrh struct {
 	cateinfo    CateInfo
 	personinfo  PersonInfo
 	sortType    string
+	disMerge    bool //拒绝不同查找对象结果的相同类型合并
 }
 
 func _append(sr []string, de []string) []string {
@@ -64,18 +65,19 @@ func (re *ReSrh) detachCategory(sr []string) {
 		store := DBCenter.DbgetIdentify(&cate, 1)
 		if len(store) > 0 {
 			re.cateinfo.cate1 = append(re.cateinfo.cate1, store...)
-			re.queryedword += sr[i]
+			re.queryedword += key
 		} else {
 			//search categoryContain
 			cate := DBModel.Category{Id: "identify", CategoryContain: key}
 			store := DBCenter.DbgetIdentify(&cate, 1)
 			if len(store) > 0 {
 				re.cateinfo.cate2 = append(re.cateinfo.cate2, store...)
-				re.queryedword += sr[i]
+				re.queryedword += key
+				re.disMerge = true
 			}
 		}
-
 	}
+	fmt.Println(re.cateinfo.cate1, re.cateinfo.cate2)
 	//两个非空列表取交集
 	if len(re.cateinfo.cate1) == 0 {
 		re.cateinfo.cates = append(re.cateinfo.cates, re.cateinfo.cate2...)
@@ -99,6 +101,7 @@ func (re *ReSrh) detachCategory(sr []string) {
 			re.nsid.note1 = append(re.nsid.note1, store...)
 		}
 	}
+	fmt.Println("分类:", re.nsid.note1)
 }
 
 //附加信息 过滤
@@ -113,15 +116,16 @@ func (re *ReSrh) detachRemark(sr []string) int {
 		store := DBCenter.DbgetIdentify(&note, 1)
 		if len(store) > 0 {
 			/*
-				如果sr[i]已经在re.queryedkeyword出现，则把它加入第一分类note1列表
-				否则加到第二分类
+				如果sr[i]已经在re.queryedkeyword出现，并且第一分类不为空
+				则把它加入第一分类note1列表否则加到第二分类
 			*/
-			if strings.Index(re.queryedword, sr[i]) > -1 {
-				re.nsid.note1 = _append(re.nsid.note1, store)
+			if strings.Index(re.queryedword, sr[i]) > -1 && len(re.nsid.note1) > 0 {
+				if !re.disMerge {
+					re.nsid.note1 = _append(re.nsid.note1, store)
+				}
 			} else {
 				re.nsid.note2 = _append(re.nsid.note2, store)
 			}
-			re.queryedword += sr[i]
 		}
 	}
 	return len(re.nsid.note2)
@@ -165,12 +169,6 @@ func (re *ReSrh) analysisKeyWord(keyword string) []string {
 	//动态丢词->查询用户,使用原始关键字
 	deal.dynamicDiscardWord(queryword, re.detachUser)
 
-	fmt.Println("nsid.note1", re.nsid.note1)
-
-	fmt.Println("nsid.note2", re.nsid.note2)
-
-	fmt.Println("nsid.note3", re.nsid.note3)
-
 	//如果存在有效的分类但没有查找到分类对应的笔记，并且关键字有剩余搜索值，应该返回空
 	if re.queryedword != "" && len(re.nsid.note1) == 0 && len(re.nsid.note3) == 0 {
 		if len(queryword) > len(re.queryedword) {
@@ -178,6 +176,11 @@ func (re *ReSrh) analysisKeyWord(keyword string) []string {
 		}
 
 	}
+	fmt.Println("nsid.note1", re.nsid.note1)
+
+	fmt.Println("nsid.note2", re.nsid.note2)
+
+	fmt.Println("nsid.note3", re.nsid.note3)
 	//取 nsid 交集
 	//var capture []string
 	capture := re.intersect(re.nsid.note1, re.nsid.note2, re.nsid.note3)

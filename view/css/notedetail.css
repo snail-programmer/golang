@@ -1,0 +1,128 @@
+.note-detail-tools{
+    width: 20cm;
+    margin: 0 auto;
+    height: 50px;
+    background-color: rgb(223, 211, 233);
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding: 20px;
+    box-shadow: 2px 2px 5px #8e8d92;
+}
+.note-detail-tools .catename-title{
+    width: 15cm;
+    height: 30px;
+    float: left;
+}
+.note-detail-tools .re_note_edit{
+    float: right;
+    color: rgb(102, 98, 98);
+    background:none;
+    cursor: pointer;
+    width: 90px;
+    height: 30px;
+    border-color: cadetblue;
+    border: 1px #248aff solid;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-right: 20px;
+ }
+.note_content{
+    width: 20cm;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 1px 2px 5px #8e8d92;
+    padding: 20px;
+    height: auto;
+}
+
+.note_content p{
+    width: 100%;
+    max-width: 764px;
+}
+.note_content img{
+    max-width: 20cm;
+    background-size: cover;
+}
+.collect_img,.coin_img{
+    float: right;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    display: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.coin_img{
+    margin-right: 16px;
+}
+.commentbtn{
+    float: right;
+    width: 100px;
+    height: 30px;
+    background-color: #248aff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.comment-content{
+    width: 21cm;margin: 0 auto;height:auto;margin-top: 20px;
+    /* background-color: #248aff;  */
+}
+.comment-head{
+    display: flex; justify-self: start;
+}
+.comment-head .headimg{
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-size: cover;
+}
+.comment-head .nickname,.comment-time,.cmt-ope{
+    margin-top: 7px;
+    margin-left:7px; 
+    font-size:12px; 
+
+}
+.nickname{
+    width: 200px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.cmt-ope{
+    background: none;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    height: 20px;
+    color: white;
+    background-color: #248aff;
+ }
+.comment-time{
+    margin-left:30px;
+    width: auto;
+}
+.refer-info{
+    margin-left: 34px;
+    font-size: 12px;
+    width: 400px;
+    height: auto;
+    border-radius: 4px;
+    padding: 4px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    border: none;
+    background-color: #afaeb3;
+}
+.comment-info{
+    font-size: 13px;
+    margin-left: 34px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}

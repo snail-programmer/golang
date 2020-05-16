@@ -1,0 +1,191 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+        <link rel="stylesheet" type="text/css" href="../css/setting.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/message.css"/>
+        <script src="../script/jquery.min.js"></script>
+         <script src="../script/show_mask.js"></script>
+        <script src="../script/ajax_request.js"></script>
+        <!-- <script src="../script/check_identify.js"></script> -->
+        <script>
+            // var href = window.location.href;
+            // var sp = href.substring(href.length-5);
+            // if(sp.indexOf("html",0)>=0){
+            //     document.location="mine.html";
+            // }
+        </script>
+ 
+                <script>
+                    function create_message_item(msgs){
+                        console.log(msgs);
+                        var mlen = 0;
+                        if((typeof msgs).toString() == "object"){
+                            mlen=msgs.length;
+                        }
+                        var back = document.getElementById("message-items");
+                        back.innerHTML="";
+                        var tool_info = document.getElementsByClassName("notify-cnt").item(0);
+                        tool_info.innerText=mlen+"条通知";
+                        if(mlen == 0){
+                            return;
+                        }
+                        var src = document.getElementsByClassName("message_item").item(0);
+                        msgs.forEach(msg => {
+                        var doc = src.cloneNode(true);
+                        doc.id=msg.Id;
+                        doc.style.display="block";
+                        var lbs = doc.getElementsByTagName("label");
+                        var headimg = doc.getElementsByClassName("author_img").item(0);
+                        headimg.src=msg.HeadImg;
+                        for(var i=0;i < lbs.length;i++){
+                            switch (lbs.item(i).className) {
+                                case "identify":
+                                    lbs.item(i).innerText=msg.Id;
+                                    break;
+                                case "authorId":
+                                    lbs.item(i).innerText=msg.AuthorId;
+                                    break;
+                                case "articleId":
+                                    lbs.item(i).innerText=msg.ArticleId;
+                                    break;
+                                case "author_nick":
+                                    var inr = "<a target=_blank href=/personview.html?authorId="+msg.MyId+">"+msg.NickName+"</a>";
+                                    if(msg.ReplyId)
+                                        lbs.item(i).innerHTML="@"+inr+"回复了你:";
+                                    else
+                                        lbs.item(i).innerHTML="来自@"+inr+"的评论:";
+                                    break;
+                                case "msg":
+                                    if(msg.ReplyId)
+                                        lbs.item(i).innerText=msg.Comment;
+                                    break;
+                                case "src_msg":
+                                    if(msg.ReplyId)
+                                        lbs.item(i).innerText=msg.RefCmt;
+                                    else
+                                        lbs.item(i).innerText=msg.Comment;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        back.appendChild(doc);
+                        });
+                    }
+                    function init_message(readed){
+                          request_route("/get_message?readed="+readed,function(e){
+                            create_message_item(e);
+                        });
+                    }
+                    function remove_message(id){
+                        request_route("/remove_message?id="+id,function(e){
+                            
+                        });
+                        var tool_info = document.getElementsByClassName("notify-cnt").item(0);
+                        var num = tool_info.innerText;
+                        if(id == "all"){
+                            var back = document.getElementById("message-items");
+                            back.innerHTML="";
+                            num = "0";
+                        }
+                        mlen=parseInt(num,10);
+                        if(mlen > 0)
+                            mlen--;
+                        tool_info.innerText=mlen+"条通知";
+                    }
+                    var ident;
+                    var stax;
+                    var offset;
+                    var xoset;
+                    function mousedown(_this){ 
+                        ident = _this.id;
+                        stax=event.pageX;
+                        var moffset = _this.offsetLeft;
+                        var foffset = _this.parentNode.offsetLeft;
+                        offset=moffset-foffset;
+                     }
+                    function mouseup(_this){
+                        ident="";
+                        if(xoset < -100){
+                            //请求网络
+                            var id = _this.getElementsByClassName("identify").item(0);
+                            remove_message(id.innerText);   
+                            _this.remove();
+                        }else{
+                            _this.style.opacity="1";
+                            _this.style.margin="20px auto 20px auto";
+                        }
+                    }
+                    function leftslide(_this){
+                        if(ident == _this.id){
+                            xoset = event.pageX-stax;
+                            if(xoset > 0){
+                                return;
+                            }
+                            if(xoset < -100){
+                                _this.style.backgroundColor="#e6454a";
+                            }
+                            var opacity = 1-(xoset*-1)/300;
+                            _this.style.opacity= opacity;
+                            if(opacity < 0.1){
+                                //请求网络
+                                var id = _this.getElementsByClassName("identify").item(0);
+                                remove_message(id.innerText);  
+                                ident = "";
+                                _this.remove();
+                                return;
+                            }
+                            _this.style.marginLeft =offset+xoset;
+                         }
+                             
+                    }
+                    function msgsel(sel){
+                        var v= sel[sel.selectedIndex].value;
+                        init_message(v);
+                    }
+                    function view_note(_this){
+                        var iden = _this.getElementsByClassName("identify").item(0).innerText;
+                        var authorId = _this.getElementsByClassName("authorId").item(0).innerText;
+                        var noteid = _this.getElementsByClassName("articleId").item(0).innerText;
+                        var url="/notedetail.html?authorId="+authorId+
+                        "&noteid="+noteid+"&ope=view_note&jump="+iden;
+                        window.open(url,"_blank");
+                    }
+                </script>
+    </head>
+    <body onload="init_message(0)">
+        <div class="back">
+            <div class="topline"></div>
+             <div id="message-content">
+                <div class="message_tools">
+                    <button class="msg-btn" onclick="remove_message('all')">全部已读</button>
+                    <!-- <button class="msg-btn">通知设置</button> -->
+                    <select class="msg-btn" onchange="msgsel(this)">
+                        <option value="0">未读消息</option>
+                        <option value="1">已读消息</option>
+                    </select>
+                    <label class="notify-cnt" style="line-height: 30px;">0条通知</label>
+                </div>
+                <!-- template -->
+                <div class="message_item" style="display: none;" onmousedown="mousedown(this)" onmouseup="mouseup(this)" onmousemove="leftslide(this)">
+                    <div style="display: flex;justify-self: start;">
+                        <img class="author_img">
+                        <label class="identify" style="display: none;"></label>
+                        <label class="authorId" style="display: none;"></label>
+                        <label class="articleId" style="display: none;"></label>
+                        <label class="author_nick"></label>
+                    </div>
+                    <label class="msg" style="text-align: left;"></label>
+                    <label class="src_msg"></label>
+                    <div class="circle_view" onclick="view_note(this.parentNode)">
+                        <p class="rightnext">></p>
+                    </div>
+                </div>
+                <!--  -->
+                <div id="message-items">
+                </div>
+            </div>
+         </div>
+    </body>
+</html>

@@ -79,11 +79,9 @@ function setData(arr){
     //查看笔记详情
     function viewNote(){
         var dom = this.parentNode;
+        var authorId  = dom.getElementsByClassName("authorId").item(0).innerHTML;
         var noteid = dom.getElementsByClassName("ArticleId").item(0).innerHTML;
-        var catename = dom.getElementsByClassName("catedetail").item(0).innerText;
-         var ec = encodeURI(catename);
-        var url="/notedetail.html?ArticleId="+noteid+
-        "&ope=view_note"+"&catename="+encodeURI(ec);
+         var url="/notedetail.html?authorId="+authorId+"&noteid="+noteid+"&ope=view_note";
         window.open(url,"_blank");
     }
     function viewDetail(){

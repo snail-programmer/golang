@@ -8,7 +8,6 @@ import (
 )
 
 type dealKeyWord struct {
-	// keymap map[string][]string
 }
 
 var keymap = make(map[string][]string)
@@ -93,8 +92,8 @@ func (kw *dealKeyWord) dynamicDiscardWord(queryword string, callback notify) {
 		}
 		retryarr := kw.cvtArrWithSepNum(queryword, keylen-i)
 		//调用回调,返回搜索成功的数量
-		effect_n := callback(retryarr)
-		if effect_n > 0 { // && i >= (keylen-1)/2
+		callback(retryarr)
+		if keylen-i <= 2 {
 			break
 		}
 	}

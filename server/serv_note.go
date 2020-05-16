@@ -66,8 +66,10 @@ func delt_note(w http.ResponseWriter, r *http.Request) {
 	//删除笔记，同时删除所有对该笔记的收藏，评论
 	article := DBModel.Article{ArticleId: noteid, AuthorId: userId}
 	collect := DBModel.Collect_article{ArticleId: noteid}
+	comment := DBModel.Article_comment{ArticleId: noteid}
 	if DBCenter.DeleteData(article) {
 		DBCenter.DeleteData(collect)
+		DBCenter.DeleteData(comment)
 		jsonStr := GenericPackJson("success")
 		w.Write(jsonStr)
 	} else {
@@ -90,6 +92,9 @@ func view_note(w http.ResponseWriter, r *http.Request) {
 	//查询一条笔记
 	article := DBModel.Article{ArticleId: noteid}
 	DBCenter.DbgetWithOneModel(&article)
+	category := DBModel.Category{Id: article.CategoryId}
+	DBCenter.DbgetWithOneModel(&category)
+	article.Remark = category.CategoryName + " > " + category.CategoryContain + " > " + article.Remark
 	w.Write(GenericPackJson(article))
 
 	if article.CategoryId != "" && userId != "" && userId != article.AuthorId {

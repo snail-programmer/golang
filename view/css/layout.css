@@ -79,14 +79,25 @@
     float: left;
     color: rgb(126, 125, 128);
     font-size: 12px;
-    margin-top:  -10px;
+    margin-top:  -7px;
     width: 100px;
     margin-left: 46px;
     text-align: start;
 }
+#loginhead .msgtip{
+     margin-left: 30px;
+      width: 20px;height: 20px;
+      border-radius: 10px; 
+      background-color: rgb(214, 60, 60);
+      color: white;
+      font-size: 10px;
+      font-weight: 100;
+      padding-top: 3px;
+      text-align: center;
+      visibility: hidden;
+}
 #loginhead .dropDown{
-    margin-top:  40px;
- 
+    margin-top:  15px;
     height: 0px;
 }
 .dropdown-toggle{
@@ -242,13 +253,14 @@
     width: 120px;
     overflow:hidden;
     text-overflow:ellipsis;
+    white-space: nowrap;
  }
  .item #catedetail{
     font-size: 10px;
     color:#696366;
-    width: 84%;
+    width: 220px;
     margin-top: 12px;
- }
+  }
  .item #project{
      margin-top: 30px;
  }

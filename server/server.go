@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"../plugins/net/websocket"
 )
 
 type handleFunc func(http.ResponseWriter, *http.Request)
@@ -46,7 +48,15 @@ func IsResourceServ(url string) bool {
 	url = strings.ToLower(url)
 	for _, e := range allowType {
 		if strings.Contains(url, e) {
-
+			return true
+		}
+	}
+	return false
+}
+func IsSockServ(url string) bool {
+	if len(url) >= 4 {
+		pt := url[len(url)-4 : len(url)]
+		if pt == "sock" {
 			return true
 		}
 	}
@@ -65,6 +75,10 @@ func (tx *doHttpHandler) getServ(w http.ResponseWriter, r *http.Request) {
 	if IsResourceServ(routeUrl) {
 		handle := tx.fileHandle["RscServ"]
 		handle.ServeHTTP(w, r)
+	} else if IsSockServ(routeUrl) {
+		handle := tx.fileHandle[routeUrl]
+		handle.ServeHTTP(w, r)
+
 	} else {
 		run := tx.handler[routeUrl]
 		if run != nil {
@@ -75,7 +89,6 @@ func (tx *doHttpHandler) getServ(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func (tx *doHttpHandler) postServ(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("post request")
 	routeUrl := r.RequestURI
 	//取链接最后的路由地址为rpc服务函数名
 	lr := strings.LastIndex(routeUrl, "/")
@@ -94,7 +107,7 @@ func (tx *doHttpHandler) postServ(w http.ResponseWriter, r *http.Request) {
 //网络根服务函数
 func (tx *doHttpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost")
+	// w.Header().Set("Access-Control-Allow-Origin", "http://localhost")
 	if r.Method == "GET" {
 		tx.getServ(w, r)
 	} else {
@@ -126,7 +139,12 @@ func RPC_SERVER_REGIST() {
 	myhandler.handler["/getCollectState"] = getCollectState
 	myhandler.handler["/getCollectNotes"] = getCollectNotes
 	myhandler.handler["/GiveGratuity"] = GiveGratuity
-
+	myhandler.handler["/push_comment"] = push_comment
+	myhandler.handler["/get_comment"] = get_comment
+	myhandler.handler["/del_comment"] = del_comment
+	myhandler.handler["/get_notify_cnt"] = get_notify_cnt
+	myhandler.handler["/get_message"] = get_message
+	myhandler.handler["/remove_message"] = remove_message
 	//上传
 	myhandler.handler["/upload"] = upload
 	myhandler.handler["/save_draft"] = save_draft
@@ -135,6 +153,8 @@ func RPC_SERVER_REGIST() {
 	myhandler.handler["/del_draft"] = del_draft
 	myhandler.handler["/xhedit_saveNote"] = xhedit_saveNote
 	myhandler.handler["/xhedit_uploadImg"] = xhedit_uploadImg
+	//socket
+	myhandler.fileHandle["/socknet.sock"] = websocket.Handler(socknet)
 	//文件资源服务
 	myhandler.fileHandle["RscServ"] = http.FileServer(http.Dir("../view"))
 	err := http.ListenAndServe(":9000", &myhandler)
@@ -145,5 +165,4 @@ func RPC_SERVER_REGIST() {
 
 func main() {
 	RPC_SERVER_REGIST()
-
 }

@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>学霸笔记</title>
         <!-- <link rel="stylesheet" type="text/css" href="./css/layout.css"> -->
+        <link rel="stylesheet" type="text/css" href="./css/notedetail.css"> 
         <script src="plugins/xheditor/jquery/jquery-1.11.2.min.js"></script>
         <script src="plugins/xheditor/xheditor-1.2.2.min.js"></script>
         <script src="plugins/xheditor/xheditor_lang/zh-cn.js"></script>
@@ -11,76 +12,22 @@
         <script src="script/show_mask.js"></script>
         <script src="script/tools.js"></script>
         <script src="script/warning.js"></script>
-        <style>
-        
-            .note-detail-tools{
-                width: 20cm;
-                margin: 0 auto;
-                height: 50px;
-                background-color: rgb(223, 211, 233);
-                margin-top: 10px;
-                margin-bottom: 0px;
-                padding: 20px;
-                box-shadow: 2px 2px 5px #8e8d92;
-            }
-            .note-detail-tools .catename-title{
-                width: 15cm;
-                height: 30px;
-                float: left;
-            }
-            .note-detail-tools .re_note_edit{
-                float: right;
-                color: rgb(102, 98, 98);
-                background:none;
-                cursor: pointer;
-                width: 90px;
-                height: 30px;
-                border-color: cadetblue;
-                border: 1px #248aff solid;
-                border-radius: 4px;
-                margin-top: 10px;
-                margin-right: 20px;
-             }
-            .note_content{
-                width: 20cm;
-                margin: 0 auto;
-                background-color: white;
-                box-shadow: 1px 2px 5px #8e8d92;
-                padding: 20px;
-                height: auto;
-            }
-  
-            .note_content p{
-                width: 100%;
-                max-width: 770px;
-            }
-            .note_content img{
-                max-width: 20cm;
-                background-size: cover;
-            }
-            .collect_img,.coin_img{
-                float: right;
-                width: 30px;
-                height: 30px;
-                background-size: cover;
-                display: none;
-                cursor: pointer;
-                margin-top: 10px;
-            }
-            .coin_img{
-                margin-right: 16px;
-            }
-
-        </style>
+        <script src="./script/web_socket.js"></script>
+        <script src="./script/notedetail.js"></script>
         <script>
       
             //查看笔记成功回调
             function view_callback(data) {
-               console.log("view_note_back:",data);
+                if(!data)
+                    return;
                 //存储session
                sessionStorage.setItem("_ArticleId",data.ArticleId);
                sessionStorage.setItem("_Article",data.Article);
                sessionStorage.setItem("_AuthorId",data.AuthorId);
+               //分类
+               var title = document.getElementsByClassName("catename-title").item(0);
+                title.innerText=data.Remark;
+               //内容
                var content = document.getElementsByClassName("note_content").item(0);
                 content.innerHTML = data["Article"]; 
                
@@ -101,15 +48,20 @@
                     coinimg.style.display="block";
                 }
             }
+            var sock;
             //请求文章
-            var aid = getQueryVariable("ArticleId");
+            var authorId =getQueryVariable("authorId");
+            var aid = getQueryVariable("noteid");
             var route = getQueryVariable("ope");
             send_data(route,view_callback,"noteId="+aid);
             function init_detailPage(){
-                var catename = getQueryVariable("catename");
-                var title = document.getElementsByClassName("catename-title").item(0);
-                catename=decodeURI(decodeURI(catename));
-                title.innerText = catename;
+                //消息通知
+                // sock = new SockServ(function(e){
+                //     sock.sendData(localStorage.getItem("MyUserId"),function(e){
+                //     console.log("e.data:",e);
+                //     localStorage.setItem("msg_cnt",e);
+                // });
+                // });
                 //查询笔记收藏状态
                 send_data("/getCollectState",function(e){
                     console.log("e",e);
@@ -118,8 +70,9 @@
                         doc.src="./image/collect_sel.png";
                     }
                 },"noteId="+aid);
+                //加载评论
+                init_comment();
             }
-
         </script>
     </head>
     <body onload="init_detailPage()">
@@ -187,5 +140,48 @@
         </div>
          <div  class="note_content">
         </div>
-    </body>
+        <script>
+            function send_comment(content){
+                show_mask("pushing...");
+                var authorId = getQueryVariable("authorId");
+                var noteid = getQueryVariable("noteid");
+                var comment = $("#comment").val();
+                if(content){
+                    comment = content;
+                }
+                var data = "AuthorId="+authorId+"&ArticleId="+noteid+"&Comment="+comment;
+                send_data("/push_comment",function(e){
+                    if(e.code == "400"){
+                        show_warn("提示",e.msg);
+                    }else{
+                        init_comment();
+                    }
+                } ,data);
+                hide_mask();
+            }
+       
+        </script>
+        <!-- 评论 -->
+        <div style="width: 21cm;margin: 0 auto;height: 100px;margin-top: 20px;">
+            <textarea id="comment" placeholder="友善发言😘" style="float: right; border: none; width: 99.5%;height: 70px; resize: none; box-shadow: 1px 2px 5px #8e8d92;"></textarea>
+            <button class="commentbtn" onclick="send_comment()">发表</button>
+        </div>
+  
+        <div class="comment-content">
+            <!-- <div id="comment-item">
+    
+            <div class="comment-head" >
+                <img src="image/coin.png" class="headimg">
+                <label id="myid"></label>
+                <label class="nickname">我是谁</label>
+                <a class="cmt-ope" href="#">回复</a>
+                <label class="comment-time" >2016</label>
+            </div>
+            <div class="refer-info">啥东西</div> 
+            <p class="comment-info">你写的不对?</p>
+            <p style="text-align: center;">加载更多</p>
+        </div> -->
+                    
+    </div>
+     </body>
 </html>

@@ -17,17 +17,44 @@
            <script src="script/ajax_request.js"></script>
            <script src="script/check_identify.js"></script>
            <script src="script/tools.js"></script>
-
+           <script src="./script/web_socket.js"></script>
         <script>
-          
+        function load_message(){
+            if(!localStorage.getItem("MyUserId")){
+                var msgtip = document.getElementsByClassName("msgtip").item(0);
+                msgtip.style.visibility="hidden";
+                return;
+            }
+            //消息通知
+            sock = new SockServ(function(e){
+                sock.sendData(localStorage.getItem("MyUserId"),function(e){
+                    console.log("e:",e);
+                    var msgtip = document.getElementsByClassName("msgtip").item(0);
+                    if(e=="0"){
+                        return;
+                    }
+                     if(e.length > 1){
+                        e="9+";
+                    }
+                    msgtip.style.visibility="visible";
+                    msgtip.innerText = e;
+                    sessionStorage.setItem("msg_cnt",e);
+                });
+                request_route("/get_notify_cnt");
+            });
+        }
             function initData() {
+                load_message();
                 check_identify_jump("身份验证...","login.html");
-                
                 var page = getQueryVariable("page");
                 //没有参数显示我的信息
                 if(!page)
                     page = "meinfo";  
-                $("#"+page).click();
+                if(!$("#"+page).text()){
+                    $(".rightcontent").attr("src","template/"+page+".html");
+                }else
+                    $("#"+page).click();
+
             }
            
             $(document).ready(function(){
@@ -52,6 +79,9 @@
             function setting(){
                 $(".rightcontent").attr("src","/getUserConfig");
             }
+            function message(){
+                $(".rightcontent").attr("src","template/message.html");
+            }
         </script>
     </head>
     <body onload="initData()">
@@ -61,13 +91,15 @@
             <input type="button" id="btnStyle" value="注册/登录" onclick="loginClick()"/>
          <!-- 登录头像 -->
             <div id="loginhead" >
+                <label class="msgtip"></label>
                 <div  class="dropdown">
-                    <p class="dropdown-toggle" data-toggle="dropdown"  >
+                    <p class="dropdown-toggle" data-toggle="dropdown" >
                        <b class="caret"></b>
                     </p>
                    <ul class="dropdown-menu" style="min-width: 40px;">
                        <!-- js 设置[登录，注销] -->
                        <li ><a href="/logout">注销</a></li>
+                       <li><a onclick="message()" class="view-msg">消息 •</a></li>
                        <!-- <li onclick="setting()"><a>个人设置 </a></li> -->
                    </ul>
                  </div>

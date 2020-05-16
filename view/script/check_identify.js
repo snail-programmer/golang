@@ -1,7 +1,7 @@
 request_route('/getMyUser',request_route_callback);
-var globaldoc=window.top.document;
+ var globaldoc=window.top.document;
 function request_route_callback(obj) {
-    //隐藏注册登录按钮，显示用户图标
+     //隐藏注册登录按钮，显示用户图标
     var head=document.getElementById("loginhead");
     var nickname = document.getElementById("nickname");
     var btn=document.getElementById("btnStyle");
@@ -42,8 +42,4 @@ function loginClick() {
 function reCheck(){
     request_route('/getMyUser',request_route_callback);
 }
-// function rootCheck(){
-//     //获取顶层窗体
-//     var dom = window.top.document.getElementsByTagName("body").item(0);
-//     dom.onload();
-// }
+ 

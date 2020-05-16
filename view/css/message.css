@@ -1,0 +1,81 @@
+.back{
+    text-align: left;
+    height: auto;
+}
+.message_item,.message_tools{
+    width: 600px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: #958da8 2px 2px 5px;
+    position: relative;
+    margin: 20px auto  20px auto;
+}
+.message_tools{
+    display: flex;
+    justify-content: left;
+}
+.message_tools > label{
+    margin-left: 20px;
+    font-size: 13px;
+    color: #958da8;
+}
+.author_img{
+    width: 30px;height: 30px;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-left: 7px;
+}
+ .author_nick,.msg{
+    margin-top: 15px;
+    margin-left: 7px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+ }
+ .msg{
+     margin-top: 4px;
+     display: inline-block;
+     width: 400px;
+     max-height: 40px;
+ }
+ .src_msg{
+    display:block;
+     margin-top: 7px;
+     width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #d9d5df;
+     padding:7px;
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    word-break: keep-all;
+}
+.message_item   .circle_view {
+border: 1px solid #a39f9f;
+background: none;
+width: 40px;
+height: 40px;
+border-radius: 20.5px;
+cursor: pointer;
+position: absolute;
+top:34%;
+left:500px;
+text-align: center;
+}
+.circle_view  .rightnext  {
+color: #a39e9e;
+font-size: 20px;
+font-weight: 400;
+margin: 0 auto;
+line-height: 40px;
+width: 34;
+text-decoration: none;
+}
+.msg-btn{
+    background-color: teal;
+    color: white;
+    outline: none;
+    margin-right: 1px;
+    border-radius: 2px;
+}

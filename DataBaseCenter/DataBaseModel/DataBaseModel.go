@@ -41,8 +41,17 @@ type Article struct {
 }
 type Article_comment struct {
 	Id        string
+	MyId      string
+	ReplyId   string
+	AuthorId  string
 	ArticleId string
 	Comment   string
+	Cmt_time  string
+	Readed    string
+	//virtual field
+	NickName string
+	HeadImg  string
+	RefCmt   string
 }
 type Category struct {
 	Id              string
@@ -64,7 +73,4 @@ type Visit_log struct {
 	Id         string
 	VisitId    string
 	CategoryId string
-}
-type Reg_log struct {
-	Id string
 }

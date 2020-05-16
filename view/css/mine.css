@@ -78,3 +78,6 @@
  .dc label{
     margin: 0 auto;
 }
+.dropdown-menu>.view-msg{
+    color: brown;
+}

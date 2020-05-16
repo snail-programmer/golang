@@ -118,7 +118,7 @@ function personal_notelist(arr){
             btn.style.display="inline";
         }
         if(headimg){
-            headimg.src="/"+notelist[i]["HeadImg"];
+            headimg.src=notelist[i]["HeadImg"];
         }
         attach.appendChild(dest);
     }

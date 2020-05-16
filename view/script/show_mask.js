@@ -1,5 +1,7 @@
 var globaldom;
 var dom;
+var global_mask;
+var mask_content;
 function initMask(){
     var link = document.createElement("link");
     link.rel = "stylesheet";
@@ -21,6 +23,11 @@ function show_mask(contStr){
     img.className="loadimg";
     img.src="../image/largeloading.gif";
     info.innerText="加载中...";
+    mask.style.top=document.body.scrollTop+document.documentElement.scrollTop+"px";
+    var scrollTop=document.body.scrollTop+document.documentElement.scrollTop+140;
+    content.style.top=scrollTop+"px";
+    global_mask=mask;
+    mask_content=content;
     if(contStr){
         info.innerText = contStr;
     }
@@ -29,6 +36,13 @@ function show_mask(contStr){
         content.appendChild(info);
         dom.appendChild(mask);
         dom.appendChild(content);
+        window.top.document.addEventListener("scroll", scroll_listen,true);
+    }
+ 
+    function scroll_listen(){
+        var scrollTop=document.body.scrollTop+document.documentElement.scrollTop;
+        global_mask.style.top=scrollTop+"px";
+        mask_content.style.top=scrollTop+140+"px";
     }
  }
  

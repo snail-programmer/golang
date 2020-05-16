@@ -37,13 +37,15 @@ class CWarnInfo{
     }
      _this.cancel_default();
  }
-
+ 
      show_warn(titleStr,contStr,ok_call,cancel_call){
          this.initBack();
          var mask = document.createElement("div");
          var content= document.createElement("div");
          var title = document.createElement("p");
          var info = document.createElement("p");
+         this._mask=mask;
+         this._content=content;
          if(this.type == "input"){
              info = document.createElement("input");
              info.placeholder=contStr;
@@ -80,6 +82,11 @@ class CWarnInfo{
           ok.addEventListener("click",this.ok_default);
           cancel.addEventListener("click",this.cancel_default);
 
+              //mask位置
+        mask.style.top= document.body.scrollTop+document.documentElement.scrollTop+"px";
+         mask.style.height="100%";
+         var scrollTop=document.body.scrollTop+document.documentElement.scrollTop+140;
+          content.style.top=scrollTop+"px";
          if(dom && mask){
              content.appendChild(title);
              content.appendChild(info);
@@ -89,9 +96,15 @@ class CWarnInfo{
              dom.appendChild(mask);
              dom.appendChild(content);
          }
+         window.top.document.addEventListener("scroll", this.scroll_listen,true);
      }
+     scroll_listen(){
+         var scrollTop=document.body.scrollTop+document.documentElement.scrollTop;
+         _this._mask.style.top=scrollTop+"px";
+        _this._content.style.top=scrollTop+140+"px";
+      }
 }
-
+ 
 function show_warn(titleStr,contStr,ok_call,cancel_call){
     var warn = new CWarnInfo("generic");
     _this=warn;

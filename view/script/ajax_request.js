@@ -11,8 +11,9 @@ class CxhrServer{
             if(xh.readyState==4 && xh.status==200)
             {
                 var response=xh.responseText;
-        
                 try {
+                    if(!response)
+                        return;
                     var json1= JSON.parse(response);
                     if((typeof json1).toString() == "object"){
                        if(isDispatcherCmd(json1)){
@@ -20,11 +21,12 @@ class CxhrServer{
                        }
                     }
                     var xData=json1["data"];
-                    console.log("xData:",  xData)
-                     callback(xData);
+                    if(callback)
+                        callback(xData);
                 } catch (error) {
                     console.log("error:",error);
-                    callback(response);
+                    if(callback)
+                        callback(response);
                 }
             
             }

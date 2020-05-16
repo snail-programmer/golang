@@ -135,8 +135,9 @@
                      });
                  }else{
                     var catename = dom.parentElement.getElementsByClassName("catename").item(0).innerText;
-                     document.location="/notedetail.html?ArticleId="+noteid+
-                     "&ope="+ope+"&catename="+catename;
+                    encode_catename = encodeURI(encodeURI(catename));
+                      document.location="/notedetail.html?noteid="+noteid+
+                     "&ope="+ope+"&catename="+encode_catename;
                  }
              return;
              }else{
